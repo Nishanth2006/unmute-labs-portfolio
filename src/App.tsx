@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import { ArrowUpRight, Mail, Terminal, ArrowLeft, Maximize2, X, Cpu, Layers, LayoutGrid } from 'lucide-react';
 
-// --- NEW: FULLY RESOLVED LOCAL .JPG IMPORTS ---
+// --- NEW: STATIC LOCAL .JPG IMPORTS ---
 import aether1 from './assets/aether-1.jpg';
 import aether2 from './assets/aether-2.jpg';
 import aether3 from './assets/aether-3.jpg';
@@ -84,6 +84,7 @@ export default function App() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [zoomImage, setZoomImage] = useState<string | null>(null);
 
+  // Mouse trail pointer and liquid glow setups
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   const glowX = useMotionValue(-200);
@@ -108,6 +109,7 @@ export default function App() {
     return () => window.removeEventListener('mousemove', moveCursor);
   }, [cursorX, cursorY, glowX, glowY]);
 
+  // Parallax background tracking
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -177,7 +179,7 @@ export default function App() {
         </a>
       </nav>
 
-      {/* MAIN VIEW SYSTEM CONTROLLER */}
+      {/* MAIN VIEW CONTROLLER SYSTEM */}
       <main className="relative z-10">
         <AnimatePresence mode="wait">
           
@@ -201,7 +203,7 @@ export default function App() {
                   </span>
                   <h1 className="text-4xl sm:text-7xl font-black tracking-tighter uppercase leading-[0.95] mb-4">
                     High-fidelity code. <br/>
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-400 via-white to-neutral-500">Fluid digital motion.</span>
+                    <span className="eye-candy-gradient block mt-2">Fluid digital motion.</span>
                   </h1>
                   <p className="text-[#7e7e87] text-sm sm:text-base max-w-xl mx-auto font-light leading-relaxed">
                     Engineering ultra-smooth web systems, responsive interface engines, and zero-latency state controllers tailored specifically for premium corporate platforms.
@@ -280,7 +282,7 @@ export default function App() {
             </motion.div>
           )}
 
-          {/* VIEW LAYER B: TARGET PROJECT INTERACTIVE LANDING CASE */}
+          {/* VIEW LAYER B: TARGET PROJECT DEEP DIVE INTERFACE */}
           {currentPage === 'project' && selectedProject && (
             <motion.div
               key="project-view"
@@ -352,7 +354,7 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      {/* INTERACTIVE REVENUE CORE CONSULTATION TERMINAL */}
+      {/* OPERATIONAL INTERACTIVE SHELL CONSULTATION CONSOLE */}
       <section className="w-full bg-[#0a0a0c]/90 border-t border-white/[0.03] py-24 px-4 sm:px-6 md:px-12 relative z-20">
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="text-center space-y-3">
@@ -377,7 +379,7 @@ export default function App() {
             <div className="p-6 space-y-4 text-xs md:text-sm min-h-[140px] flex flex-col justify-between">
               <div className="space-y-2 text-neutral-300">
                 <p className="text-neutral-500">// Terminal Query Stream Logs Output:</p>
-                <motion.p { ...{ key: consoleMessage } } initial={{ opacity: 0, x: -5 }} animate={{ opacity: 1, x: 0 }} className="leading-relaxed text-emerald-400 font-bold">&gt; {consoleMessage}</motion.p>
+                <motion.p key={consoleMessage} initial={{ opacity: 0, x: -5 }} animate={{ opacity: 1, x: 0 }} className="leading-relaxed text-emerald-400 font-bold">&gt; {consoleMessage}</motion.p>
               </div>
               
               <div className="border-t border-white/[0.03] pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
