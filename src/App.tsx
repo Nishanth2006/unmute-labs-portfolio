@@ -13,6 +13,10 @@ import nexus2 from './assets/nexus-2.jpg';
 import velocity1 from './assets/velocity-1.jpg';
 import velocity2 from './assets/velocity-2.jpg';
 
+// --- CONFIGURATION CORNER ---
+// 🎯 PASTED: Replace this string placeholder with your live Formspree endpoint URL key
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/meebroaw";
+
 // --- TS INTERFACES ---
 interface Project {
   id: string;
@@ -154,23 +158,38 @@ export default function App() {
     setConsoleMessage("Returned to primary layout deck view. Workspace synced.");
   };
 
-  // REACTIVE FORM ENGINE REGS
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     setConsoleMessage(`Updating local context: [form_${name}] -> "${value.substring(0, 30)}${value.length > 30 ? '...' : ''}"`);
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  // ASYNCHRONOUS BACKEND TRANSMISSION INGESTION LOGIC
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
-    setConsoleMessage(`CRITICAL: Lead packet compilation complete. Payload package compiled: { Client: "${formData.name}", Range: "${formData.budget}" }. Transmitting telemetry metrics directly to developer mailbox logs...`);
-    
-    // Fallback automatic programmatic redirect to mail system anchor if using static structures
-    setTimeout(() => {
-      const mailtoUrl = `mailto:your-email@gmail.com?subject=Project%20Scope%20Inquiry%20-%20${formData.name}&body=Sender:%20${formData.name}%0D%0AEmail:%20${formData.email}%0D%0ATrack:%20${formData.category}%0D%0ABudget:%20${formData.budget}%0D%0ADetails:%20${formData.details}`;
-      window.location.href = mailtoUrl;
-    }, 1500);
+    setConsoleMessage("COMPILING PAYLOAD... Establishing safe handshake array matrix parameters with transmission node.");
+
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        setConsoleMessage(`TRANSMISSION SUCCESSFUL: Lead packet successfully pushed to mailbox array queue. Client "${formData.name}" tracked completely.`);
+        // Reset the input elements gracefully
+        setFormData({ name: '', email: '', category: 'SaaS Platform', budget: '$2,000 - $5,000', details: '' });
+      } else {
+        setConsoleMessage("TRANSMISSION ERROR: Endpoint pipeline handshake failed. Check your unique configuration token value.");
+      }
+    } catch (err) {
+      setConsoleMessage("CRITICAL CORRUPTION FAILURE: Unable to locate active online routing network gateway pipelines.");
+    }
   };
 
   return (
@@ -381,7 +400,7 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      {/* 3. HIGH-CONVERTING CLIENT LEAD CAPTURE FORM DECK */}
+      {/* REAL FUNCTIONAL LEAD CAPTURE FORM DECK */}
       <section id="hire" className="w-full bg-[#0a0a0c]/90 border-t border-white/[0.03] py-24 px-4 sm:px-6 md:px-12 relative z-20">
         <div className="max-w-4xl mx-auto space-y-12">
           <div className="text-center space-y-3">
@@ -434,8 +453,8 @@ export default function App() {
               <button type="submit" disabled={isSubmitted} className="w-full flex items-center justify-center space-x-2 bg-white text-black font-mono font-bold text-xs uppercase tracking-widest py-4 rounded-xl hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
                 {isSubmitted ? (
                   <>
-                    <CheckCircle2 size={14} className="animate-pulse text-emerald-600" />
-                    <span>Payload Transmitted</span>
+                    <CheckCircle2 size={14} className="text-emerald-500 animate-pulse" />
+                    <span>Transmission Secured</span>
                   </>
                 ) : (
                   <>
