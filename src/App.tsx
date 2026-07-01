@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
-import { ArrowUpRight, Mail, Terminal, ArrowLeft, Maximize2, X, Cpu, Layers, LayoutGrid } from 'lucide-react';
+import { ArrowUpRight, Mail, Terminal, ArrowLeft, Maximize2, X, Cpu, Layers, LayoutGrid, CheckCircle2 } from 'lucide-react';
 
-// --- NEW: STATIC LOCAL .JPG IMPORTS ---
+// --- STATIC LOCAL .JPG IMPORTS ---
 import aether1 from './assets/aether-1.jpg';
 import aether2 from './assets/aether-2.jpg';
 import aether3 from './assets/aether-3.jpg';
@@ -27,7 +27,14 @@ interface Project {
   gallery: { url: string; caption: string }[];
 }
 
-// --- MASTER PORTFOLIO SHOWCASE DATA MATRIX ---
+interface FormState {
+  name: string;
+  email: string;
+  category: string;
+  budget: string;
+  details: string;
+}
+
 const PORTFOLIO_DB: Project[] = [
   {
     id: "aether",
@@ -79,10 +86,20 @@ const PORTFOLIO_DB: Project[] = [
 
 export default function App() {
   const [activeFilter, setActiveFilter] = useState<string>("ALL");
-  const [consoleMessage, setConsoleMessage] = useState<string>("System online. Standby for client terminal request...");
+  const [consoleMessage, setConsoleMessage] = useState<string>("System online. Ready to map client lead generation parameters...");
   const [currentPage, setCurrentPage] = useState<'showroom' | 'project'>('showroom');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [zoomImage, setZoomImage] = useState<string | null>(null);
+
+  // REAL FORM INGESTION STATE
+  const [formData, setFormData] = useState<FormState>({
+    name: '',
+    email: '',
+    category: 'SaaS Platform',
+    budget: '$2,000 - $5,000',
+    details: ''
+  });
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   // Mouse trail pointer and liquid glow setups
   const cursorX = useMotionValue(-100);
@@ -109,7 +126,6 @@ export default function App() {
     return () => window.removeEventListener('mousemove', moveCursor);
   }, [cursorX, cursorY, glowX, glowY]);
 
-  // Parallax background tracking
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -138,9 +154,23 @@ export default function App() {
     setConsoleMessage("Returned to primary layout deck view. Workspace synced.");
   };
 
-  const simulateTerminalInquiry = (projectName: string, e: React.MouseEvent) => {
-    e.stopPropagation(); 
-    setConsoleMessage(`Initializing pipeline query for: [${projectName}]... Routing configuration payloads directly to developer logs... Status: Direct Booking Route Configured.`);
+  // REACTIVE FORM ENGINE REGS
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    setConsoleMessage(`Updating local context: [form_${name}] -> "${value.substring(0, 30)}${value.length > 30 ? '...' : ''}"`);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitted(true);
+    setConsoleMessage(`CRITICAL: Lead packet compilation complete. Payload package compiled: { Client: "${formData.name}", Range: "${formData.budget}" }. Transmitting telemetry metrics directly to developer mailbox logs...`);
+    
+    // Fallback automatic programmatic redirect to mail system anchor if using static structures
+    setTimeout(() => {
+      const mailtoUrl = `mailto:your-email@gmail.com?subject=Project%20Scope%20Inquiry%20-%20${formData.name}&body=Sender:%20${formData.name}%0D%0AEmail:%20${formData.email}%0D%0ATrack:%20${formData.category}%0D%0ABudget:%20${formData.budget}%0D%0ADetails:%20${formData.details}`;
+      window.location.href = mailtoUrl;
+    }, 1500);
   };
 
   return (
@@ -171,7 +201,7 @@ export default function App() {
           <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
         </button>
         <a 
-          href="mailto:your-email@gmail.com" 
+          href="#hire" 
           className="flex items-center space-x-2 text-[11px] uppercase tracking-widest font-bold px-5 py-2.5 bg-white text-black rounded-xl hover:opacity-90 transition-all font-mono"
         >
           <Mail size={12} />
@@ -266,11 +296,8 @@ export default function App() {
                         </div>
 
                         <div className="lg:col-span-1 flex lg:justify-end items-center h-full">
-                          <button 
-                            onClick={(e) => simulateTerminalInquiry(project.title, e)}
-                            className="flex items-center space-x-3 bg-white/5 border border-white/10 px-6 py-4 rounded-xl text-xs font-mono tracking-wider hover:bg-white hover:text-black hover:border-white transition-all w-full lg:w-auto justify-center group/btn cursor-pointer"
-                          >
-                            <span>Query System Specs</span>
+                          <button className="flex items-center space-x-3 bg-white/5 border border-white/10 px-6 py-4 rounded-xl text-xs font-mono tracking-wider hover:bg-white hover:text-black hover:border-white transition-all w-full lg:w-auto justify-center group/btn cursor-pointer">
+                            <span>Explore Interface Case</span>
                             <ArrowUpRight size={14} />
                           </button>
                         </div>
@@ -354,44 +381,100 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      {/* OPERATIONAL INTERACTIVE SHELL CONSULTATION CONSOLE */}
-      <section className="w-full bg-[#0a0a0c]/90 border-t border-white/[0.03] py-24 px-4 sm:px-6 md:px-12 relative z-20">
-        <div className="max-w-4xl mx-auto space-y-8">
+      {/* 3. HIGH-CONVERTING CLIENT LEAD CAPTURE FORM DECK */}
+      <section id="hire" className="w-full bg-[#0a0a0c]/90 border-t border-white/[0.03] py-24 px-4 sm:px-6 md:px-12 relative z-20">
+        <div className="max-w-4xl mx-auto space-y-12">
           <div className="text-center space-y-3">
-            <span className="text-[10px] font-mono tracking-widest text-[#7e7e87] uppercase block">[ TRANSACTION GATEWAY ]</span>
-            <h3 className="text-2xl md:text-4xl font-extrabold tracking-tight uppercase">Ready to elevate your deployment stack?</h3>
-            <p className="text-[#7e7e87] text-sm font-light max-w-md mx-auto">Query custom interface scopes, structural timelines, and system metrics requirements directly with the developer.</p>
+            <span className="text-[10px] font-mono tracking-widest text-[#7e7e87] uppercase block">[ CLIENT INGESTION PIPELINE ]</span>
+            <h3 className="text-2xl md:text-4xl font-extrabold tracking-tight uppercase">Ready to initiate a contract project?</h3>
+            <p className="text-[#7e7e87] text-sm font-light max-w-md mx-auto">Submit your product architecture metrics below to directly queue your deployment consultation scope.</p>
           </div>
 
-          <div className="w-full border border-white/[0.05] rounded-2xl bg-black font-mono overflow-hidden shadow-2xl">
-            <div className="bg-neutral-900/60 border-b border-white/[0.05] px-4 py-3 flex items-center justify-between text-xs text-neutral-400">
-              <div className="flex items-center space-x-2">
-                <Terminal size={12} className="text-[#7e7e87]" />
-                <span className="font-bold">developer_session_console.sh</span>
-              </div>
-              <div className="flex space-x-1.5">
-                <div className="w-2.5 h-2.5 rounded-full bg-neutral-800" />
-                <div className="w-2.5 h-2.5 rounded-full bg-neutral-800" />
-                <div className="w-2.5 h-2.5 rounded-full bg-neutral-800" />
-              </div>
-            </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <div className="p-6 space-y-4 text-xs md:text-sm min-h-[140px] flex flex-col justify-between">
-              <div className="space-y-2 text-neutral-300">
-                <p className="text-neutral-500">// Terminal Query Stream Logs Output:</p>
-                <motion.p key={consoleMessage} initial={{ opacity: 0, x: -5 }} animate={{ opacity: 1, x: 0 }} className="leading-relaxed text-emerald-400 font-bold">&gt; {consoleMessage}</motion.p>
+            {/* INPUT CONTROLLERS (LEFT 7-COLUMNS) */}
+            <form onSubmit={handleFormSubmit} className="lg:col-span-7 bg-black border border-white/[0.04] p-6 md:p-8 rounded-2xl space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="block text-[11px] font-mono uppercase text-[#7e7e87]">Identity / Brand</label>
+                  <input required name="name" type="text" placeholder="Alex Rivera" value={formData.name} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white focus:outline-none transition-all text-white placeholder-neutral-600" />
+                </div>
+                <div className="space-y-2">
+                  <label className="block text-[11px] font-mono uppercase text-[#7e7e87]">Secure Mailbox</label>
+                  <input required name="email" type="email" placeholder="alex@brand.com" value={formData.email} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white focus:outline-none transition-all text-white placeholder-neutral-600" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="block text-[11px] font-mono uppercase text-[#7e7e87]">Project Track</label>
+                  <select name="category" value={formData.category} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white focus:outline-none transition-all text-white cursor-pointer">
+                    <option>SaaS Platform</option>
+                    <option>E-Commerce Hub</option>
+                    <option>Immersive Showroom</option>
+                    <option>Custom Matrix Solution</option>
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="block text-[11px] font-mono uppercase text-[#7e7e87]">Target Budget Allocation</label>
+                  <select name="budget" value={formData.budget} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white focus:outline-none transition-all text-white cursor-pointer">
+                    <option>$1,000 - $2,000</option>
+                    <option>$2,000 - $5,000</option>
+                    <option>$5,000 - $10,000</option>
+                    <option>$10,000+</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-[11px] font-mono uppercase text-[#7e7e87]">Architectural Scope Details</label>
+                <textarea required name="details" rows={4} placeholder="Describe your performance metrics targets, preferred timeline layouts, or functional design goals..." value={formData.details} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white focus:outline-none transition-all text-white resize-none placeholder-neutral-600" />
+              </div>
+
+              <button type="submit" disabled={isSubmitted} className="w-full flex items-center justify-center space-x-2 bg-white text-black font-mono font-bold text-xs uppercase tracking-widest py-4 rounded-xl hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
+                {isSubmitted ? (
+                  <>
+                    <CheckCircle2 size={14} className="animate-pulse text-emerald-600" />
+                    <span>Payload Transmitted</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Compile & Transmit Scope</span>
+                    <ArrowUpRight size={14} />
+                  </>
+                )}
+              </button>
+            </form>
+
+            {/* REAL-TIME LOG COMPILER DIAGNOSTIC (RIGHT 5-COLUMNS) */}
+            <div className="lg:col-span-5 w-full border border-white/[0.05] rounded-2xl bg-black font-mono overflow-hidden shadow-2xl">
+              <div className="bg-neutral-900/60 border-b border-white/[0.05] px-4 py-3 flex items-center justify-between text-xs text-neutral-400">
+                <div className="flex items-center space-x-2">
+                  <Terminal size={12} className="text-[#7e7e87]" />
+                  <span className="font-bold">lead_compilation_stream.sh</span>
+                </div>
+                <div className="flex space-x-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-neutral-800" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-neutral-800" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-neutral-800" />
+                </div>
               </div>
               
-              <div className="border-t border-white/[0.03] pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <span className="text-[11px] text-neutral-500 font-medium">Navigate across system elements to verify operational pipeline structures.</span>
-                <a 
-                  href="mailto:your-email@gmail.com?subject=Project%20Infrastructure%20Inquiry"
-                  className="flex items-center space-x-2 text-xs font-bold uppercase tracking-wider bg-white text-black px-5 py-3 rounded-xl hover:opacity-90 transition-all w-full sm:w-auto justify-center"
-                >
-                  <span>Transmit Terminal Request</span>
-                </a>
+              <div className="p-6 text-xs min-h-[295px] flex flex-col justify-between bg-black">
+                <div className="space-y-3 text-neutral-400">
+                  <p className="text-neutral-500 font-bold">// Live Object Memory Monitor:</p>
+                  <div className="bg-[#0a0a0c] p-4 rounded-xl border border-white/[0.02] space-y-1 text-neutral-300">
+                    <p><span className="text-purple-400">client_identity:</span> <span className="text-emerald-400">"{formData.name || 'null'}"</span></p>
+                    <p><span className="text-purple-400">contact_mailbox:</span> <span className="text-emerald-400">"{formData.email || 'null'}"</span></p>
+                    <p><span className="text-purple-400">project_track:</span> <span className="text-emerald-400">"{formData.category}"</span></p>
+                    <p><span className="text-purple-400">budget_allocation:</span> <span className="text-amber-400 font-bold">"{formData.budget}"</span></p>
+                  </div>
+                  <p className="text-emerald-500 font-semibold text-[11px] leading-normal animate-pulse">&gt; {consoleMessage}</p>
+                </div>
+                <p className="text-[10px] text-neutral-600 pt-4 border-t border-white/[0.03]">Input elements automatically register inside the tracking buffer matrix row.</p>
               </div>
             </div>
+
           </div>
         </div>
       </section>
@@ -400,27 +483,9 @@ export default function App() {
       <AnimatePresence>
         {zoomImage && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.95 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setZoomImage(null)}
-              className="absolute inset-0 bg-black cursor-zoom-out"
-            />
-            
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="relative max-w-5xl max-h-[85vh] z-10 select-none overflow-hidden rounded-xl border border-white/10 shadow-2xl bg-black p-1"
-            >
-              <button 
-                onClick={() => setZoomImage(null)}
-                className="absolute top-4 right-4 z-20 p-2 bg-black/70 backdrop-blur-md border border-white/10 rounded-full text-white hover:bg-white hover:text-black transition-all cursor-pointer"
-              >
-                <X size={16} />
-              </button>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.95 }} exit={{ opacity: 0 }} onClick={() => setZoomImage(null)} className="absolute inset-0 bg-black cursor-zoom-out" />
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ type: "spring", damping: 30, stiffness: 300 }} className="relative max-w-5xl max-h-[85vh] z-10 select-none overflow-hidden rounded-xl border border-white/10 shadow-2xl bg-black p-1">
+              <button onClick={() => setZoomImage(null)} className="absolute top-4 right-4 z-20 p-2 bg-black/70 backdrop-blur-md border border-white/10 rounded-full text-white hover:bg-white hover:text-black transition-all cursor-pointer"><X size={16} /></button>
               <img src={zoomImage} alt="Expanded Interface Component View" className="w-full h-auto max-h-[80vh] object-contain rounded-lg filter grayscale" />
             </motion.div>
           </div>
