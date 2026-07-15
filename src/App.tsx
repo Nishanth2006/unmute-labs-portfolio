@@ -82,7 +82,7 @@ const PORTFOLIO_DB: Project[] = [
     longDesc: "Velocity Gear uses deep-state state manipulation architecture to keep client cart item parameters updated in absolute real-time. Paired with localized product filter pipelines, it decreases shopping transaction friction exponentially.",
     gallery: [
       { url: velocity1 as string, caption: "Tactical Alpha V1 Equipment Selection Grid" },
-      { url: velocity2 as string, caption: "Transactional Sliding Package Panel Framework" }
+      { url: velocity2 as string, caption: "Transactional Sliding Package Package Framework" }
     ]
   }
 ];
@@ -103,107 +103,36 @@ export default function App() {
   });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  // --- BULLETPROOF HIGH-PERFORMANCE CANVAS ENGINE ---
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouseRef = useRef({ x: -1000, y: -1000, targetX: -1000, targetY: -1000 });
-
+  // --- ANIME.JS HERO TYPOGRAPHY TRIGGER ---
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let animationFrameId: number;
-    
-    // Hard forced initial scale matching parameters
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
-
-    const spacing = 45;
-    let dots: { x: number; y: number; baseSize: number; currentSize: number }[] = [];
-
-    // Helper to map out dots coordinates matrix safely
-    const initGrid = () => {
-      dots = [];
-      for (let x = spacing / 2; x < width; x += spacing) {
-        for (let y = spacing / 2; y < height; y += spacing) {
-          dots.push({ x, y, baseSize: 1.5, currentSize: 1.5 });
-        }
-      }
-    };
-    initGrid();
-
-    const handleResize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-      initGrid();
-    };
-    window.addEventListener('resize', handleResize);
-
-    // Render loop cycle frame logic
-    const render = () => {
-      ctx.clearRect(0, 0, width, height);
-      
-      // Interpolate real cursor trace layout parameters
-      mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * 0.12;
-      mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * 0.12;
-
-      dots.forEach((dot) => {
-        const dx = mouseRef.current.x - dot.x;
-        const dy = mouseRef.current.y - dot.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        
-        const maxDist = 160;
-        if (dist < maxDist) {
-          const factor = (maxDist - dist) / maxDist;
-          dot.currentSize = dot.baseSize + factor * 3.5;
-          ctx.fillStyle = `rgba(255, 255, 255, ${0.12 + factor * 0.5})`;
-        } else {
-          dot.currentSize = dot.baseSize;
-          ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
-        }
-
-        ctx.beginPath();
-        ctx.arc(dot.x, dot.y, dot.currentSize, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      animationFrameId = requestAnimationFrame(render);
-    };
-    
-    render();
-
-    // FIXED: Global window mouse move anchor bypasses layout blocking elements entirely
-    const handleGlobalMove = (e: MouseEvent) => {
-      mouseRef.current.targetX = e.clientX;
-      mouseRef.current.targetY = e.clientY;
-    };
-    window.addEventListener('mousemove', handleGlobalMove);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', handleGlobalMove);
-      cancelAnimationFrame(animationFrameId);
-    };
+    // Elegant typographic reveal sequence on initial mount
+    anime({
+      targets: '.hero-reveal-text',
+      translateY: [30, 0],
+      opacity: [0, 1],
+      duration: 1200,
+      delay: 150,
+      easing: 'cubicBezier(0.16, 1, 0.3, 1)'
+    });
   }, []);
 
-  // Stagger entry fallback animation logic for showcase rows using Anime.js
+  // Stagger entry animation logic for showroom list row tiles using Anime.js
   useEffect(() => {
     if (currentPage === 'showroom') {
       setTimeout(() => {
         anime({
           targets: '.anime-project-card',
-          translateY: [35, 0],
+          translateY: [30, 0],
           opacity: [0, 1],
-          delay: anime.stagger(100, { start: 150 }),
-          duration: 900,
+          delay: anime.stagger(80, { start: 100 }),
+          duration: 800,
           easing: 'cubicBezier(0.16, 1, 0.3, 1)'
         });
-      }, 50);
+      }, 30);
     }
   }, [currentPage, activeFilter]);
 
-  // Framer motion tracking pointer configuration
+  // Framer motion fluid interactive pointer config parameters
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   const glowX = useMotionValue(-200);
@@ -234,8 +163,8 @@ export default function App() {
     offset: ["start start", "end start"]
   });
   
-  const heroTextY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const heroTextY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
 
   const filteredProjects = activeFilter === "ALL" 
     ? PORTFOLIO_DB 
@@ -263,7 +192,7 @@ export default function App() {
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setConsoleMessage("COMPILING PAYLOAD... Establishing safe handshake array matrix parameters with transmission node.");
+    setConsoleMessage("COMPILING PAYLOAD... Establishing safe handshake parameters with transmission node.");
 
     try {
       const response = await fetch(FORMSPREE_ENDPOINT, {
@@ -274,7 +203,7 @@ export default function App() {
 
       if (response.ok) {
         setIsSubmitted(true);
-        setConsoleMessage(`TRANSMISSION SUCCESSFUL: Lead packet successfully pushed to mailbox array queue. Client "${formData.name}" tracked completely.`);
+        setConsoleMessage(`TRANSMISSION SUCCESSFUL: Lead packet successfully pushed to mailbox queue. Client "${formData.name}" tracked completely.`);
         setFormData({ name: '', email: '', category: 'SaaS Platform', budget: '$2,000 - $5,000', details: '' });
       } else {
         setConsoleMessage("TRANSMISSION ERROR: Endpoint pipeline handshake failed. Check your unique configuration token value.");
@@ -287,12 +216,12 @@ export default function App() {
   return (
     <div ref={containerRef} className="relative bg-[#030303] text-white selection:bg-white selection:text-black min-h-screen antialiased overflow-hidden">
       
-      {/* FIXED STRUCTURE: Canvas backdrop loads securely on the absolute lowest layout layer index */}
-      <canvas ref={canvasRef} className="kinetic-canvas" />
+      {/* CSS GRID BACKDROP: Guarantees 100% immediate spatial structure rendering visual clarity */}
+      <div className="bulletproof-grid-bg" />
 
       {/* DYNAMIC AMBIENT MOUSE TRAIL GLOW */}
       <motion.div 
-        className="fixed top-0 left-0 w-[400px] h-[400px] rounded-full bg-white/[0.012] blur-[120px] pointer-events-none z-0 hidden md:block"
+        className="fixed top-0 left-0 w-[400px] h-[400px] rounded-full bg-white/[0.015] blur-[120px] pointer-events-none z-0 hidden md:block"
         style={{ x: glowXSpring, y: glowYSpring }}
       />
 
@@ -336,14 +265,14 @@ export default function App() {
                 className="relative h-screen w-full flex flex-col justify-center items-center px-6 md:px-12 overflow-hidden border-b border-white/[0.02]"
               >
                 <motion.div style={{ y: heroTextY }} className="text-center max-w-4xl space-y-6 z-10">
-                  <span className="text-[10px] font-mono tracking-[0.4em] text-[#7e7e87] uppercase block">
+                  <span className="hero-reveal-text opacity-0 text-[10px] font-mono tracking-[0.4em] text-[#7e7e87] uppercase block">
                     [ FRONTEND ARCHITECT / INTERACTION SPECIALIST ]
                   </span>
-                  <h1 className="text-4xl sm:text-7xl font-black tracking-tighter uppercase leading-[0.95] mb-4">
+                  <h1 className="hero-reveal-text opacity-0 text-4xl sm:text-7xl font-black tracking-tighter uppercase leading-[0.95] mb-4">
                     High-fidelity code. <br/>
                     <span className="eye-candy-gradient block mt-2">Fluid digital motion.</span>
                   </h1>
-                  <p className="text-[#7e7e87] text-sm sm:text-base max-w-xl mx-auto font-light leading-relaxed">
+                  <p className="hero-reveal-text opacity-0 text-[#7e7e87] text-sm sm:text-base max-w-xl mx-auto font-light leading-relaxed">
                     Engineering ultra-smooth web systems, responsive interface engines, and zero-latency state controllers tailored specifically for premium corporate platforms.
                   </p>
                 </motion.div>
@@ -489,7 +418,7 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      {/* REAL FUNCTIONAL LEAD CAPTURE FORM DECK */}
+      {/* LEAD CAPTURE FORM DECK */}
       <section id="hire" className="w-full bg-[#0a0a0c]/90 border-t border-white/[0.03] py-24 px-4 sm:px-6 md:px-12 relative z-20">
         <div className="max-w-4xl mx-auto space-y-12">
           <div className="text-center space-y-3">

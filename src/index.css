@@ -18,6 +18,7 @@ body {
   font-family: 'Plus Jakarta Sans', sans-serif;
   overflow-x: hidden;
   margin: 0;
+  padding: 0;
 }
 
 /* Premium Permanent Text Gradient Engine Safeguard with Solid Fallback */
@@ -29,16 +30,17 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* Bulletproof Fixed Background Canvas Layer Blueprint Setup */
-.kinetic-canvas {
+/* Bulletproof High-Contrast CSS Dot Grid Matrix Backdrop */
+.bulletproof-grid-bg {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center center;
   pointer-events: none;
-  z-index: 0; /* Lowered down to sit safely beneath the interaction text deck cards */
+  z-index: 0;
 }
 
 /* Micro-scrollbar interface overlay styling */
