@@ -82,7 +82,7 @@ const PORTFOLIO_DB: Project[] = [
     longDesc: "Velocity Gear uses deep-state state manipulation architecture to keep client cart item parameters updated in absolute real-time. Paired with localized product filter pipelines, it decreases shopping transaction friction exponentially.",
     gallery: [
       { url: velocity1 as string, caption: "Tactical Alpha V1 Equipment Selection Grid" },
-      { url: velocity2 as string, caption: "Transactional Sliding Package Package Framework" }
+      { url: velocity2 as string, caption: "Transactional Sliding Package Framework" }
     ]
   }
 ];
@@ -103,9 +103,7 @@ export default function App() {
   });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  // --- ANIME.JS HERO TYPOGRAPHY TRIGGER ---
   useEffect(() => {
-    // Elegant typographic reveal sequence on initial mount
     anime({
       targets: '.hero-reveal-text',
       translateY: [30, 0],
@@ -116,7 +114,6 @@ export default function App() {
     });
   }, []);
 
-  // Stagger entry animation logic for showroom list row tiles using Anime.js
   useEffect(() => {
     if (currentPage === 'showroom') {
       setTimeout(() => {
@@ -132,7 +129,6 @@ export default function App() {
     }
   }, [currentPage, activeFilter]);
 
-  // Framer motion fluid interactive pointer config parameters
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   const glowX = useMotionValue(-200);
@@ -216,7 +212,7 @@ export default function App() {
   return (
     <div ref={containerRef} className="relative bg-[#030303] text-white selection:bg-white selection:text-black min-h-screen antialiased overflow-hidden">
       
-      {/* CSS GRID BACKDROP: Guarantees 100% immediate spatial structure rendering visual clarity */}
+      {/* HIGH-CONTRAST CSS DOT GRID BACKDROP */}
       <div className="bulletproof-grid-bg" />
 
       {/* DYNAMIC AMBIENT MOUSE TRAIL GLOW */}
@@ -250,7 +246,6 @@ export default function App() {
       <main className="relative z-10">
         <AnimatePresence mode="wait">
           
-          {/* VIEW LAYER A: PORTFOLIO SHOWROOM INDEX */}
           {currentPage === 'showroom' && (
             <motion.div
               key="showroom-view"
@@ -346,7 +341,6 @@ export default function App() {
             </motion.div>
           )}
 
-          {/* VIEW LAYER B: TARGET PROJECT DEEP DIVE INTERFACE */}
           {currentPage === 'project' && selectedProject && (
             <motion.div
               key="project-view"
