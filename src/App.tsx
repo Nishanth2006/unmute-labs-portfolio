@@ -17,7 +17,6 @@ import velocity2 from './assets/velocity-2.jpg';
 // --- CONFIGURATION CORNER ---
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_ENDPOINT_HERE";
 
-// --- TS INTERFACES ---
 interface Project {
   id: string;
   num: string;
@@ -104,10 +103,13 @@ export default function App() {
   });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  // --- NEW: ANIME.JS STAGGERED ENTRANCE ENGINE ---
+  // --- KINETIC MATRIX ARCHITECTURE GENERATOR ---
+  const totalDots = 600; // 30 columns * 20 rows matrix array
+  const dotsArray = Array.from({ length: totalDots });
+
   useEffect(() => {
+    // Staggered card appearance loop
     if (currentPage === 'showroom') {
-      // Small timeout to allow structural components to frame up cleanly
       setTimeout(() => {
         anime({
           targets: '.anime-project-card',
@@ -119,9 +121,41 @@ export default function App() {
         });
       }, 50);
     }
-  }, [currentPage, activeFilter]); // Re-triggers animations perfectly when filters change!
+  }, [currentPage, activeFilter]);
 
-  // Mouse trail pointer and liquid glow setups
+  // --- NEW: ANIME.JS KINETIC BLUEPRINT WAVE ENGINE ---
+  const handleGridInteraction = (e: React.MouseEvent<HTMLDivElement>) => {
+    const container = e.currentTarget;
+    const rect = container.getBoundingClientRect();
+    
+    // Exact location tracking metrics calculations
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    
+    // Find the approximate row and column index that matches the hover target
+    const colIndex = Math.floor((mouseX / rect.width) * 30);
+    const rowIndex = Math.floor((mouseY / rect.height) * 20);
+    const targetIndex = rowIndex * 30 + colIndex;
+
+    // Trigger a high-speed grid distortion ripple centered on the mouse coordinate
+    anime({
+      targets: '.grid-dot',
+      scale: [
+        { value: 4, duration: 150, easing: 'easeOutQuad' },
+        { value: 1, duration: 600, easing: 'easeOutSine' }
+      ],
+      opacity: [
+        { value: 0.8, duration: 150, easing: 'easeOutQuad' },
+        { value: 0.15, duration: 600, easing: 'easeOutSine' }
+      ],
+      delay: anime.stagger(15, {
+        grid: [30, 20],
+        from: targetIndex
+      })
+    });
+  };
+
+  // Framer Motion pointer track handles
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   const glowX = useMotionValue(-200);
@@ -154,7 +188,6 @@ export default function App() {
   
   const heroTextY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const gridScale = useTransform(scrollYProgress, [0, 1], [1, 1.03]);
 
   const filteredProjects = activeFilter === "ALL" 
     ? PORTFOLIO_DB 
@@ -187,10 +220,7 @@ export default function App() {
     try {
       const response = await fetch(FORMSPREE_ENDPOINT, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(formData)
       });
 
@@ -207,13 +237,18 @@ export default function App() {
   };
 
   return (
-    <div ref={containerRef} className="relative bg-[#030303] text-white selection:bg-white selection:text-black min-h-screen antialiased overflow-hidden">
+    <div 
+      ref={containerRef} 
+      onMouseMove={handleGridInteraction} /* HOOKED: Pass coordinate metrics directly to Anime.js grid morpher */
+      className="relative bg-[#030303] text-white selection:bg-white selection:text-black min-h-screen antialiased overflow-hidden"
+    >
       
-      {/* CYBERNETIC BLUEPRINT GRID BACKGROUND */}
-      <motion.div 
-        style={{ scale: gridScale }}
-        className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.012)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.012)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none z-0"
-      />
+      {/* NEW: DYNAMIC KINETIC GRID MATRIX ELEMENT NODES LAYER */}
+      <div className="grid-container">
+        {dotsArray.map((_, index) => (
+          <div key={index} className="grid-dot" />
+        ))}
+      </div>
 
       {/* DYNAMIC AMBIENT MOUSE TRAIL GLOW */}
       <motion.div 
@@ -300,7 +335,6 @@ export default function App() {
                     <div
                       key={project.id}
                       onClick={() => navigateToProject(project)}
-                      /* UPDATED: Added target target hook class for staggered Anime.js entrance pipeline */
                       className="anime-project-card opacity-0 w-full bg-[#0a0a0c]/80 backdrop-blur-md border border-white/[0.04] rounded-3xl p-6 md:p-10 flex flex-col justify-between group hover:border-white/20 transition-all relative overflow-hidden cursor-pointer"
                     >
                       <div className="absolute -top-12 -right-12 text-[10vw] font-black text-white/[0.01] select-none uppercase pointer-events-none font-mono">
