@@ -17,6 +17,9 @@ import velocity2 from './assets/velocity-2.jpg';
 // --- CONFIGURATION CORNER ---
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_ENDPOINT_HERE";
 
+// 🎯 SAFE ENGINE UNPACKER: Resolves Vite namespace object wrapper bugs instantly
+const animeEngine = (anime as any).default || anime;
+
 interface Project {
   id: string;
   num: string;
@@ -103,11 +106,11 @@ export default function App() {
   });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  // --- DEFINITIVE ANIME.JS STATIC MATRIX GENERATOR ---
+  // --- ANIME.JS STATIC MATRIX CONFIGURATION ---
   const totalGridNodes = 375; // 25 columns * 15 rows matrix blocks layout
   const gridItemsArray = Array.from({ length: totalGridNodes });
 
-  // Handle pointer tracking metrics directly to fire ripples instantly
+  // Handle pointer tracking metrics directly to fire ripples instantly through the verified layout unpacker
   const triggerTacticalRipple = (e: React.MouseEvent<HTMLDivElement>) => {
     const wrapper = e.currentTarget;
     const bounds = wrapper.getBoundingClientRect();
@@ -119,45 +122,46 @@ export default function App() {
     const row = Math.floor((mouseY / bounds.height) * 15);
     const originNodeIndex = row * 25 + col;
 
-    // Direct Anime.js stagger trigger running smoothly on DOM nodes
-    anime({
+    if (isNaN(originNodeIndex) || originNodeIndex < 0 || originNodeIndex >= totalGridNodes) return;
+
+    animeEngine({
       targets: '.tactical-node',
       scale: [
-        { value: 1.8, duration: 200, easing: 'easeOutQuad' },
-        { value: 1.0, duration: 700, easing: 'easeInQuad' }
+        { value: 1.6, duration: 180, easing: 'easeOutQuad' },
+        { value: 1.0, duration: 650, easing: 'easeInQuad' }
       ],
       backgroundColor: [
-        { value: 'rgba(255, 255, 255, 0.4)', duration: 200 },
-        { value: 'rgba(255, 255, 255, 0.08)', duration: 700 }
+        { value: 'rgba(255, 255, 255, 0.35)', duration: 180 },
+        { value: 'rgba(255, 255, 255, 0.06)', duration: 650 }
       ],
-      delay: anime.stagger(12, {
+      delay: animeEngine.stagger(12, {
         grid: [25, 15],
         from: originNodeIndex
       })
     });
   };
 
-  // Hero headline initial introduction slide-up using Anime.js
+  // Hero headline initial introduction slide-up sequence
   useEffect(() => {
-    anime({
+    animeEngine({
       targets: '.hero-reveal-text',
-      translateY: [30, 0],
+      translateY: [25, 0],
       opacity: [0, 1],
-      duration: 1200,
+      duration: 1000,
       delay: 100,
       easing: 'cubicBezier(0.16, 1, 0.3, 1)'
     });
   }, []);
 
-  // Stagger layout card load sequences using Anime.js
+  // Stagger layout card loads dynamically synchronized with current view filters
   useEffect(() => {
     if (currentPage === 'showroom') {
       setTimeout(() => {
-        anime({
+        animeEngine({
           targets: '.anime-project-card',
           translateY: [30, 0],
           opacity: [0, 1],
-          delay: anime.stagger(80, { start: 100 }),
+          delay: animeEngine.stagger(80, { start: 100 }),
           duration: 800,
           easing: 'cubicBezier(0.16, 1, 0.3, 1)'
         });
@@ -165,7 +169,7 @@ export default function App() {
     }
   }, [currentPage, activeFilter]);
 
-  // Framer motion interactive cursor pointer trail
+  // Framer motion interactive cursor pointer trail tracking layout configuration
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   const glowX = useMotionValue(-200);
@@ -249,11 +253,11 @@ export default function App() {
   return (
     <div 
       ref={containerRef} 
-      onMouseMove={triggerTacticalRipple} /* HOOKED: Pass cursor position parameters straight to the Anime.js ripple loop */
+      onMouseMove={triggerTacticalRipple}
       className="relative bg-[#030303] text-white selection:bg-white selection:text-black min-h-screen antialiased overflow-hidden"
     >
       
-      {/* SOLID STATIC GRID NODES: Absolute reliability, zero collapsing */}
+      {/* SOLID MESH NODES OVERLAY GRID DECK */}
       <div className="anime-grid-wrapper">
         {gridItemsArray.map((_, index) => (
           <div key={index} className="tactical-node" />
@@ -553,7 +557,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* EXPERT ZOOM LIGHTBOX OVERLAY GRAPHIC FRAME MASK */}
+      {/* EXPERT LIGHTBOX ZOOM MASK */}
       <AnimatePresence>
         {zoomImage && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
