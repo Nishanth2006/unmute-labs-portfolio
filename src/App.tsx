@@ -103,59 +103,101 @@ export default function App() {
   });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  // --- KINETIC MATRIX ARCHITECTURE GENERATOR ---
-  const totalDots = 600; // 30 columns * 20 rows matrix array
-  const dotsArray = Array.from({ length: totalDots });
+  // --- HIGH-PERFORMANCE CANVAS BLUEPRINT MATRIX ENGINE ---
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mouseRef = useRef({ x: -1000, y: -1000, targetX: -1000, targetY: -1000 });
 
   useEffect(() => {
-    // Staggered card appearance loop
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    // Grid tracking geometry parameters
+    const spacing = 45;
+    const dots: { x: number; y: number; baseSize: number; currentSize: number }[] = [];
+
+    // Initialize point locations across spatial coordinates
+    for (let x = spacing / 2; x < width; x += spacing) {
+      for (let y = spacing / 2; y < height; y += spacing) {
+        dots.push({ x, y, baseSize: 1.5, currentSize: 1.5 });
+      }
+    }
+
+    const handleResize = () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+    window.addEventListener('resize', handleResize);
+
+    // Ultra-smooth rendering cycle loop
+    const render = () => {
+      ctx.clearRect(0, 0, width, height);
+      
+      // Interpolate real mouse trace variables smoothly
+      mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * 0.12;
+      mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * 0.12;
+
+      dots.forEach((dot) => {
+        const dx = mouseRef.current.x - dot.x;
+        const dy = mouseRef.current.y - dot.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        // Calculate elastic proximity metrics mapping
+        const maxDist = 160;
+        if (dist < maxDist) {
+          const factor = (maxDist - dist) / maxDist;
+          // Distort grid scale values dynamically based on cursor range coordinates
+          dot.currentSize = dot.baseSize + factor * 3.5;
+          ctx.fillStyle = `rgba(255, 255, 255, ${0.12 + factor * 0.5})`;
+        } else {
+          dot.currentSize = dot.baseSize;
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
+        }
+
+        ctx.beginPath();
+        ctx.arc(dot.x, dot.y, dot.currentSize, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      animationFrameId = requestAnimationFrame(render);
+    };
+    
+    render();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  // Track cursor metrics parameters directly
+  const handleGlobalMouseMove = (e: React.MouseEvent) => {
+    mouseRef.current.targetX = e.clientX;
+    mouseRef.current.targetY = e.clientY;
+  };
+
+  // Stagger entrance fallback animation loop for showcase rows using Anime.js
+  useEffect(() => {
     if (currentPage === 'showroom') {
       setTimeout(() => {
         anime({
           targets: '.anime-project-card',
-          translateY: [40, 0],
+          translateY: [35, 0],
           opacity: [0, 1],
-          delay: anime.stagger(120, { start: 200 }),
-          duration: 1000,
+          delay: anime.stagger(100, { start: 150 }),
+          duration: 900,
           easing: 'cubicBezier(0.16, 1, 0.3, 1)'
         });
       }, 50);
     }
   }, [currentPage, activeFilter]);
 
-  // --- NEW: ANIME.JS KINETIC BLUEPRINT WAVE ENGINE ---
-  const handleGridInteraction = (e: React.MouseEvent<HTMLDivElement>) => {
-    const container = e.currentTarget;
-    const rect = container.getBoundingClientRect();
-    
-    // Exact location tracking metrics calculations
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    
-    // Find the approximate row and column index that matches the hover target
-    const colIndex = Math.floor((mouseX / rect.width) * 30);
-    const rowIndex = Math.floor((mouseY / rect.height) * 20);
-    const targetIndex = rowIndex * 30 + colIndex;
-
-    // Trigger a high-speed grid distortion ripple centered on the mouse coordinate
-    anime({
-      targets: '.grid-dot',
-      scale: [
-        { value: 4, duration: 150, easing: 'easeOutQuad' },
-        { value: 1, duration: 600, easing: 'easeOutSine' }
-      ],
-      opacity: [
-        { value: 0.8, duration: 150, easing: 'easeOutQuad' },
-        { value: 0.15, duration: 600, easing: 'easeOutSine' }
-      ],
-      delay: anime.stagger(15, {
-        grid: [30, 20],
-        from: targetIndex
-      })
-    });
-  };
-
-  // Framer Motion pointer track handles
+  // Framer motion smooth custom pointer trail track configuration
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   const glowX = useMotionValue(-200);
@@ -239,16 +281,12 @@ export default function App() {
   return (
     <div 
       ref={containerRef} 
-      onMouseMove={handleGridInteraction} /* HOOKED: Pass coordinate metrics directly to Anime.js grid morpher */
+      onMouseMove={handleGlobalMouseMove} /* HOOKED: Map vector coordinates seamlessly across the canvas frame window */
       className="relative bg-[#030303] text-white selection:bg-white selection:text-black min-h-screen antialiased overflow-hidden"
     >
       
-      {/* NEW: DYNAMIC KINETIC GRID MATRIX ELEMENT NODES LAYER */}
-      <div className="grid-container">
-        {dotsArray.map((_, index) => (
-          <div key={index} className="grid-dot" />
-        ))}
-      </div>
+      {/* NEW: HIGH PERFORMANCE GRAPHIC CANVAS MATRIX ELEMENT NODES LAYER */}
+      <canvas ref={canvasRef} className="kinetic-canvas" />
 
       {/* DYNAMIC AMBIENT MOUSE TRAIL GLOW */}
       <motion.div 
