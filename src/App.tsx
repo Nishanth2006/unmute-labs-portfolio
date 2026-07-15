@@ -103,17 +103,53 @@ export default function App() {
   });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
+  // --- DEFINITIVE ANIME.JS STATIC MATRIX GENERATOR ---
+  const totalGridNodes = 375; // 25 columns * 15 rows matrix blocks layout
+  const gridItemsArray = Array.from({ length: totalGridNodes });
+
+  // Handle pointer tracking metrics directly to fire ripples instantly
+  const triggerTacticalRipple = (e: React.MouseEvent<HTMLDivElement>) => {
+    const wrapper = e.currentTarget;
+    const bounds = wrapper.getBoundingClientRect();
+    
+    const mouseX = e.clientX - bounds.left;
+    const mouseY = e.clientY - bounds.top;
+    
+    const col = Math.floor((mouseX / bounds.width) * 25);
+    const row = Math.floor((mouseY / bounds.height) * 15);
+    const originNodeIndex = row * 25 + col;
+
+    // Direct Anime.js stagger trigger running smoothly on DOM nodes
+    anime({
+      targets: '.tactical-node',
+      scale: [
+        { value: 1.8, duration: 200, easing: 'easeOutQuad' },
+        { value: 1.0, duration: 700, easing: 'easeInQuad' }
+      ],
+      backgroundColor: [
+        { value: 'rgba(255, 255, 255, 0.4)', duration: 200 },
+        { value: 'rgba(255, 255, 255, 0.08)', duration: 700 }
+      ],
+      delay: anime.stagger(12, {
+        grid: [25, 15],
+        from: originNodeIndex
+      })
+    });
+  };
+
+  // Hero headline initial introduction slide-up using Anime.js
   useEffect(() => {
     anime({
       targets: '.hero-reveal-text',
       translateY: [30, 0],
       opacity: [0, 1],
       duration: 1200,
-      delay: 150,
+      delay: 100,
       easing: 'cubicBezier(0.16, 1, 0.3, 1)'
     });
   }, []);
 
+  // Stagger layout card load sequences using Anime.js
   useEffect(() => {
     if (currentPage === 'showroom') {
       setTimeout(() => {
@@ -129,6 +165,7 @@ export default function App() {
     }
   }, [currentPage, activeFilter]);
 
+  // Framer motion interactive cursor pointer trail
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   const glowX = useMotionValue(-200);
@@ -210,10 +247,18 @@ export default function App() {
   };
 
   return (
-    <div ref={containerRef} className="relative bg-[#030303] text-white selection:bg-white selection:text-black min-h-screen antialiased overflow-hidden">
+    <div 
+      ref={containerRef} 
+      onMouseMove={triggerTacticalRipple} /* HOOKED: Pass cursor position parameters straight to the Anime.js ripple loop */
+      className="relative bg-[#030303] text-white selection:bg-white selection:text-black min-h-screen antialiased overflow-hidden"
+    >
       
-      {/* HIGH-CONTRAST CSS DOT GRID BACKDROP */}
-      <div className="bulletproof-grid-bg" />
+      {/* SOLID STATIC GRID NODES: Absolute reliability, zero collapsing */}
+      <div className="anime-grid-wrapper">
+        {gridItemsArray.map((_, index) => (
+          <div key={index} className="tactical-node" />
+        ))}
+      </div>
 
       {/* DYNAMIC AMBIENT MOUSE TRAIL GLOW */}
       <motion.div 
