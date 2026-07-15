@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import { ArrowUpRight, Mail, Terminal, ArrowLeft, Maximize2, X, Cpu, Layers, LayoutGrid, CheckCircle2 } from 'lucide-react';
-import anime from 'animejs';
+import * as anime from 'animejs';
 
 // --- STATIC LOCAL .JPG IMPORTS ---
 import aether1 from './assets/aether-1.jpg';
@@ -13,6 +13,8 @@ import nexus2 from './assets/nexus-2.jpg';
 
 import velocity1 from './assets/velocity-1.jpg';
 import velocity2 from './assets/velocity-2.jpg';
+// Safely unpack the engine from the wildcard object at runtime
+const animeEngine = (anime as any).default || anime;
 
 // --- CONFIGURATION CORNER ---
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_ENDPOINT_HERE";
