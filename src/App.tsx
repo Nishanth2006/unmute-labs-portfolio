@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import { ArrowUpRight, Mail, Terminal, ArrowLeft, Maximize2, X, Cpu, Layers, LayoutGrid, CheckCircle2 } from 'lucide-react';
+import anime from 'animejs';
 
 // --- STATIC LOCAL .JPG IMPORTS ---
 import aether1 from './assets/aether-1.jpg';
@@ -14,8 +15,7 @@ import velocity1 from './assets/velocity-1.jpg';
 import velocity2 from './assets/velocity-2.jpg';
 
 // --- CONFIGURATION CORNER ---
-// 🎯 PASTED: Replace this string placeholder with your live Formspree endpoint URL key
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/meebroaw";
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_ENDPOINT_HERE";
 
 // --- TS INTERFACES ---
 interface Project {
@@ -95,7 +95,6 @@ export default function App() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [zoomImage, setZoomImage] = useState<string | null>(null);
 
-  // REAL FORM INGESTION STATE
   const [formData, setFormData] = useState<FormState>({
     name: '',
     email: '',
@@ -104,6 +103,23 @@ export default function App() {
     details: ''
   });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+
+  // --- NEW: ANIME.JS STAGGERED ENTRANCE ENGINE ---
+  useEffect(() => {
+    if (currentPage === 'showroom') {
+      // Small timeout to allow structural components to frame up cleanly
+      setTimeout(() => {
+        anime({
+          targets: '.anime-project-card',
+          translateY: [40, 0],
+          opacity: [0, 1],
+          delay: anime.stagger(120, { start: 200 }),
+          duration: 1000,
+          easing: 'cubicBezier(0.16, 1, 0.3, 1)'
+        });
+      }, 50);
+    }
+  }, [currentPage, activeFilter]); // Re-triggers animations perfectly when filters change!
 
   // Mouse trail pointer and liquid glow setups
   const cursorX = useMotionValue(-100);
@@ -164,7 +180,6 @@ export default function App() {
     setConsoleMessage(`Updating local context: [form_${name}] -> "${value.substring(0, 30)}${value.length > 30 ? '...' : ''}"`);
   };
 
-  // ASYNCHRONOUS BACKEND TRANSMISSION INGESTION LOGIC
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setConsoleMessage("COMPILING PAYLOAD... Establishing safe handshake array matrix parameters with transmission node.");
@@ -182,7 +197,6 @@ export default function App() {
       if (response.ok) {
         setIsSubmitted(true);
         setConsoleMessage(`TRANSMISSION SUCCESSFUL: Lead packet successfully pushed to mailbox array queue. Client "${formData.name}" tracked completely.`);
-        // Reset the input elements gracefully
         setFormData({ name: '', email: '', category: 'SaaS Platform', budget: '$2,000 - $5,000', details: '' });
       } else {
         setConsoleMessage("TRANSMISSION ERROR: Endpoint pipeline handshake failed. Check your unique configuration token value.");
@@ -286,7 +300,8 @@ export default function App() {
                     <div
                       key={project.id}
                       onClick={() => navigateToProject(project)}
-                      className="w-full bg-[#0a0a0c]/80 backdrop-blur-md border border-white/[0.04] rounded-3xl p-6 md:p-10 flex flex-col justify-between group hover:border-white/20 transition-all relative overflow-hidden cursor-pointer"
+                      /* UPDATED: Added target target hook class for staggered Anime.js entrance pipeline */
+                      className="anime-project-card opacity-0 w-full bg-[#0a0a0c]/80 backdrop-blur-md border border-white/[0.04] rounded-3xl p-6 md:p-10 flex flex-col justify-between group hover:border-white/20 transition-all relative overflow-hidden cursor-pointer"
                     >
                       <div className="absolute -top-12 -right-12 text-[10vw] font-black text-white/[0.01] select-none uppercase pointer-events-none font-mono">
                         {project.num}
@@ -411,7 +426,6 @@ export default function App() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            {/* INPUT CONTROLLERS (LEFT 7-COLUMNS) */}
             <form onSubmit={handleFormSubmit} className="lg:col-span-7 bg-black border border-white/[0.04] p-6 md:p-8 rounded-2xl space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -465,7 +479,6 @@ export default function App() {
               </button>
             </form>
 
-            {/* REAL-TIME LOG COMPILER DIAGNOSTIC (RIGHT 5-COLUMNS) */}
             <div className="lg:col-span-5 w-full border border-white/[0.05] rounded-2xl bg-black font-mono overflow-hidden shadow-2xl">
               <div className="bg-neutral-900/60 border-b border-white/[0.05] px-4 py-3 flex items-center justify-between text-xs text-neutral-400">
                 <div className="flex items-center space-x-2">
