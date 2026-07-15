@@ -103,7 +103,7 @@ export default function App() {
   });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  // --- HIGH-PERFORMANCE CANVAS BLUEPRINT MATRIX ENGINE ---
+  // --- BULLETPROOF HIGH-PERFORMANCE CANVAS ENGINE ---
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: -1000, y: -1000, targetX: -1000, targetY: -1000 });
 
@@ -114,31 +114,37 @@ export default function App() {
     if (!ctx) return;
 
     let animationFrameId: number;
+    
+    // Hard forced initial scale matching parameters
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
-    // Grid tracking geometry parameters
     const spacing = 45;
-    const dots: { x: number; y: number; baseSize: number; currentSize: number }[] = [];
+    let dots: { x: number; y: number; baseSize: number; currentSize: number }[] = [];
 
-    // Initialize point locations across spatial coordinates
-    for (let x = spacing / 2; x < width; x += spacing) {
-      for (let y = spacing / 2; y < height; y += spacing) {
-        dots.push({ x, y, baseSize: 1.5, currentSize: 1.5 });
+    // Helper to map out dots coordinates matrix safely
+    const initGrid = () => {
+      dots = [];
+      for (let x = spacing / 2; x < width; x += spacing) {
+        for (let y = spacing / 2; y < height; y += spacing) {
+          dots.push({ x, y, baseSize: 1.5, currentSize: 1.5 });
+        }
       }
-    }
+    };
+    initGrid();
 
     const handleResize = () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
+      initGrid();
     };
     window.addEventListener('resize', handleResize);
 
-    // Ultra-smooth rendering cycle loop
+    // Render loop cycle frame logic
     const render = () => {
       ctx.clearRect(0, 0, width, height);
       
-      // Interpolate real mouse trace variables smoothly
+      // Interpolate real cursor trace layout parameters
       mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * 0.12;
       mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * 0.12;
 
@@ -147,11 +153,9 @@ export default function App() {
         const dy = mouseRef.current.y - dot.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         
-        // Calculate elastic proximity metrics mapping
         const maxDist = 160;
         if (dist < maxDist) {
           const factor = (maxDist - dist) / maxDist;
-          // Distort grid scale values dynamically based on cursor range coordinates
           dot.currentSize = dot.baseSize + factor * 3.5;
           ctx.fillStyle = `rgba(255, 255, 255, ${0.12 + factor * 0.5})`;
         } else {
@@ -169,19 +173,21 @@ export default function App() {
     
     render();
 
+    // FIXED: Global window mouse move anchor bypasses layout blocking elements entirely
+    const handleGlobalMove = (e: MouseEvent) => {
+      mouseRef.current.targetX = e.clientX;
+      mouseRef.current.targetY = e.clientY;
+    };
+    window.addEventListener('mousemove', handleGlobalMove);
+
     return () => {
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('mousemove', handleGlobalMove);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
-  // Track cursor metrics parameters directly
-  const handleGlobalMouseMove = (e: React.MouseEvent) => {
-    mouseRef.current.targetX = e.clientX;
-    mouseRef.current.targetY = e.clientY;
-  };
-
-  // Stagger entrance fallback animation loop for showcase rows using Anime.js
+  // Stagger entry fallback animation logic for showcase rows using Anime.js
   useEffect(() => {
     if (currentPage === 'showroom') {
       setTimeout(() => {
@@ -197,7 +203,7 @@ export default function App() {
     }
   }, [currentPage, activeFilter]);
 
-  // Framer motion smooth custom pointer trail track configuration
+  // Framer motion tracking pointer configuration
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   const glowX = useMotionValue(-200);
@@ -279,13 +285,9 @@ export default function App() {
   };
 
   return (
-    <div 
-      ref={containerRef} 
-      onMouseMove={handleGlobalMouseMove} /* HOOKED: Map vector coordinates seamlessly across the canvas frame window */
-      className="relative bg-[#030303] text-white selection:bg-white selection:text-black min-h-screen antialiased overflow-hidden"
-    >
+    <div ref={containerRef} className="relative bg-[#030303] text-white selection:bg-white selection:text-black min-h-screen antialiased overflow-hidden">
       
-      {/* NEW: HIGH PERFORMANCE GRAPHIC CANVAS MATRIX ELEMENT NODES LAYER */}
+      {/* FIXED STRUCTURE: Canvas backdrop loads securely on the absolute lowest layout layer index */}
       <canvas ref={canvasRef} className="kinetic-canvas" />
 
       {/* DYNAMIC AMBIENT MOUSE TRAIL GLOW */}
