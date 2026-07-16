@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
-import { ArrowUpRight, Mail, Terminal, ArrowLeft, Maximize2, X, Cpu, Layers, LayoutGrid, CheckCircle2 } from 'lucide-react';
+import { ArrowUpRight, Mail, Terminal, ArrowLeft, Maximize2, Cpu, Layers, LayoutGrid, CheckCircle2 } from 'lucide-react';
 import * as anime from 'animejs';
 
 // --- CONFIGURATION CORNER ---
@@ -39,8 +39,8 @@ const PORTFOLIO_DB: Project[] = [
     category: "Branding",
     metrics: "60 FPS Fluid Scroll / Hardware Accelerated Layouts",
     tech: ["React", "Vite", "Tailwind v4", "Framer Motion"],
-    desc: "A high-end interaction showroom featuring dynamic asset loading pipelines, structural text layers, and asynchronous route state transitions engineered specifically for luxury boutique brands.",
-    longDesc: "Aether EV redefines the digital showroom envelope. Built to explore smooth scrolling timelines, it handles custom client-side navigation matrices to keep heavy asset elements loaded seamlessly in the background without layout fracturing or page-flicker.",
+    desc: "A high-end interaction showroom featuring dynamic asset loading pipelines, structural text layers, and asynchronous route state transitions engineered specifically for luxury boutique experiences.",
+    longDesc: "Aether EV redefines the digital showroom envelope. Built to explore smooth scrolling timelines, it handles custom client-side navigation matrices to keep heavy asset elements loaded efficiently while maintaining fluid 60 FPS performance throughout all interactive sequences.",
     gallery: [
       "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800",
       "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=800"
@@ -54,8 +54,8 @@ const PORTFOLIO_DB: Project[] = [
     category: "SaaS",
     metrics: "Zero-Lag Multi-Theme Engine / Vector Path Synthesis",
     tech: ["TypeScript", "React", "Tailwind v4", "Lucide Nodes"],
-    desc: "A client-side analytics dashboard workspace. Built with an instantaneous light/dark mode design synchronization pipeline and reactive SVG rendering graphs calculating telemetry metrics data on the fly.",
-    longDesc: "Nexus Analytics scales performance interpretation by bringing enterprise data tracking directly to the client view layer. It features dynamic mathematical path plotting variables to draw vector line configurations instantaneously from active state matrices.",
+    desc: "A client-side analytics dashboard workspace. Built with an instantaneous light/dark mode design synchronization pipeline and reactive SVG rendering graphs calculating telemetry metrics in real-time.",
+    longDesc: "Nexus Analytics scales performance interpretation by bringing enterprise data tracking directly to the client view layer. It features dynamic mathematical path plotting variables to transform raw datasets into visual narratives without backend latency.",
     gallery: [
       "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800",
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800"
@@ -69,8 +69,8 @@ const PORTFOLIO_DB: Project[] = [
     category: "E-Commerce",
     metrics: "Instantaneous State Mutators / Slide Checkout Utility",
     tech: ["React", "Vite", "Tailwind v4", "AnimatePresence"],
-    desc: "A premium retail storefront interface featuring live dynamic array filtering, transactional cart state management arrays, and smooth structural modal cart overlays optimized heavily for conversion velocity.",
-    longDesc: "Velocity Gear uses deep-state state manipulation architecture to keep client cart item parameters updated in absolute real-time. Paired with localized product filter pipelines, it decreases shopping transaction friction exponentially.",
+    desc: "A premium retail storefront interface featuring live dynamic array filtering, transactional cart state management arrays, and smooth structural modal cart overlays optimized heavily for conversion.",
+    longDesc: "Velocity Gear uses deep-state state manipulation architecture to keep client cart item parameters updated in absolute real-time. Paired with localized product filter pipelines, it delivers instant user feedback without network roundtrips.",
     gallery: [
       "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=800",
       "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?q=80&w=800"
@@ -94,68 +94,91 @@ export default function App() {
   });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  // --- 🚀 ANIME.JS GLOW TRAIL LOGIC (Zero React state updates = Zero Lag) ---
-  const totalGridNodes = 375; 
+  // --- 🚀 OPTIMIZED ANIME.JS GRID LOGIC (60 FPS LOCKED) ---
+  const totalGridNodes = 375;
   const gridItemsArray = Array.from({ length: totalGridNodes });
+
+  // Track active animations to prevent queue collision and memory leaks
+  const activeAnimations = useRef<Set<HTMLElement>>(new Set());
 
   const handleTileHover = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = e.currentTarget;
     
-    // Stop any existing animation on this specific tile to prevent queue buildup
-    animeEngine.remove(el); 
+    // Skip if animation already running on this tile (debounce hover spam)
+    if (activeAnimations.current.has(el)) return;
     
-    // Fire the high-performance localized glow
-    animeEngine({
-      targets: el,
-      backgroundColor: [
-        { value: 'rgba(255, 255, 255, 0.4)', duration: 0 },
-        { value: 'rgba(255, 255, 255, 0.02)', duration: 1500, easing: 'easeOutExpo' }
-      ],
-      borderColor: [
-        { value: 'rgba(255, 255, 255, 0.8)', duration: 0 },
-        { value: 'rgba(255, 255, 255, 0.02)', duration: 1500, easing: 'easeOutExpo' }
-      ],
-      scale: [
-        { value: 1.15, duration: 0 },
-        { value: 1, duration: 1500, easing: 'easeOutQuad' }
-      ],
-      zIndex: [
-        { value: 10, duration: 0 },
-        { value: 1, duration: 1500 }
-      ]
+    activeAnimations.current.add(el);
+    
+    // CRITICAL: Clear ALL anime instances on this element before new animation
+    animeEngine.remove(el);
+    
+    // OPTIMIZED: Use requestAnimationFrame to batch DOM reads/writes in sync with display refresh
+    requestAnimationFrame(() => {
+      animeEngine({
+        targets: el,
+        backgroundColor: [
+          { value: 'rgba(255, 255, 255, 0.35)', duration: 120, easing: 'easeOutQuad' },
+          { value: 'rgba(255, 255, 255, 0.02)', duration: 1200, easing: 'easeInQuad' }
+        ],
+        borderColor: [
+          { value: 'rgba(255, 255, 255, 0.6)', duration: 120, easing: 'easeOutQuad' },
+          { value: 'rgba(255, 255, 255, 0.02)', duration: 1200, easing: 'easeInQuad' }
+        ],
+        scale: [
+          { value: 1.12, duration: 120 },
+          { value: 1, duration: 1200, easing: 'easeOutElastic(1, .6)' }
+        ],
+        zIndex: [
+          { value: 5, duration: 0 },
+          { value: 1, duration: 1200 }
+        ],
+        complete: () => {
+          // Remove from active set when animation completes to allow new ones
+          activeAnimations.current.delete(el);
+        }
+      });
     });
   };
 
-  // Click pulse stagger (Because it looks awesome)
+  // Click pulse stagger - radiates from clicked tile
   const handleTileClick = (index: number) => {
-    animeEngine({
-      targets: '.tactical-node',
-      backgroundColor: [
-        { value: 'rgba(255, 255, 255, 0.25)', duration: 100 },
-        { value: 'rgba(255, 255, 255, 0.02)', duration: 900 }
-      ],
-      scale: [
-        { value: 1.2, duration: 100 },
-        { value: 1, duration: 900 }
-      ],
-      delay: animeEngine.stagger(20, { grid: [25, 15], from: index }),
-      easing: 'easeOutQuad'
+    requestAnimationFrame(() => {
+      // Clear any existing animations on ALL tiles first
+      animeEngine.remove('.tactical-node');
+      
+      animeEngine({
+        targets: '.tactical-node',
+        backgroundColor: [
+          { value: 'rgba(255, 255, 255, 0.2)', duration: 80 },
+          { value: 'rgba(255, 255, 255, 0.02)', duration: 800 }
+        ],
+        scale: [
+          { value: 1.18, duration: 80 },
+          { value: 1, duration: 800 }
+        ],
+        delay: animeEngine.stagger(15, { 
+          grid: [25, 15], 
+          from: index,
+          direction: 'normal'
+        }),
+        easing: 'easeOutQuad'
+      });
     });
   };
 
-  // --- CUSTOM CURSOR TRACKING ---
+  // --- CURSOR TRACKING (Isolated from grid - Zero interference) ---
   const rawX = useMotionValue(-1000);
   const rawY = useMotionValue(-1000);
   
-  const springCursorX = useSpring(rawX, { damping: 35, stiffness: 350, mass: 0.3 });
-  const springCursorY = useSpring(rawY, { damping: 35, stiffness: 350, mass: 0.3 });
+  const springCursorX = useSpring(rawX, { damping: 40, stiffness: 300, mass: 0.2 });
+  const springCursorY = useSpring(rawY, { damping: 40, stiffness: 300, mass: 0.2 });
 
   useEffect(() => {
     const handleGlobalMouseMove = (e: MouseEvent) => {
       rawX.set(e.clientX - 16);
       rawY.set(e.clientY - 16);
     };
-    window.addEventListener('mousemove', handleGlobalMouseMove);
+    window.addEventListener('mousemove', handleGlobalMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleGlobalMouseMove);
   }, [rawX, rawY]);
 
@@ -221,7 +244,7 @@ export default function App() {
       className="relative bg-[#030303] text-white selection:bg-white selection:text-black min-h-screen antialiased overflow-hidden"
     >
       
-      {/* 🚀 PERFECT ANIME.JS GRID OVERLAY (Z-Index 0) */}
+      {/* 🚀 ANIME.JS GRID OVERLAY (Z-1: Above nothing, sits below main content) */}
       <div className="anime-grid-wrapper">
         {gridItemsArray.map((_, index) => (
           <div 
@@ -233,13 +256,13 @@ export default function App() {
         ))}
       </div>
 
-      {/* CUSTOM POINTER */}
+      {/* CUSTOM POINTER (Z-50: Always on top, no pointer events) */}
       <motion.div 
         className="fixed top-0 left-0 w-8 h-8 border border-white/40 rounded-full pointer-events-none z-50 hidden md:block mix-blend-difference"
         style={{ x: springCursorX, y: springCursorY }}
       />
 
-      {/* NAVBAR */}
+      {/* NAVBAR (Z-40: Above content, captures interaction) */}
       <nav className="fixed top-0 left-0 w-full z-40 border-b border-white/[0.03] backdrop-blur-md bg-[#030303]/30 px-6 md:px-12 py-6 flex justify-between items-center pointer-events-auto">
         <button onClick={backToShowroom} className="flex items-center space-x-2 text-left bg-transparent border-none cursor-pointer">
           <span className="font-extrabold text-sm tracking-[0.3em] uppercase">UNMUTE LABS</span>
@@ -254,11 +277,10 @@ export default function App() {
         </a>
       </nav>
 
-      {/* MAIN CONTENT WRAPPER */}
-      {/* Note: The empty background areas let pointer events fall through to the grid tiles below */}
-      <main className="relative z-10 pointer-events-none">
+      {/* MAIN CONTENT (Z-20: Above grid at z-1, below navbar at z-40) */}
+      <main className="relative z-20 pointer-events-none">
         
-        {/* Reactivate pointer events for the actual interactive children components */}
+        {/* Re-enable pointer events ONLY for interactive content */}
         <div className="pointer-events-auto">
           <AnimatePresence mode="wait">
             
@@ -313,7 +335,7 @@ export default function App() {
                       <div
                         key={project.id}
                         onClick={() => navigateToProject(project)}
-                        className="w-full bg-[#0a0a0c]/80 backdrop-blur-md border border-white/[0.04] rounded-3xl p-6 md:p-10 flex flex-col justify-between group hover:border-white/20 transition-all relative overflow-hidden cursor-pointer"
+                        className="w-full bg-[#0a0a0c]/80 backdrop-blur-md border border-white/[0.04] rounded-3xl p-6 md:p-10 flex flex-col justify-between group hover:border-white/20 transition-all cursor-pointer relative"
                       >
                         <div className="absolute -top-12 -right-12 text-[10vw] font-black text-white/[0.01] select-none uppercase pointer-events-none font-mono">
                           {project.num}
@@ -342,7 +364,7 @@ export default function App() {
                           </div>
 
                           <div className="lg:col-span-1 flex lg:justify-end items-center h-full">
-                            <button className="flex items-center space-x-3 bg-white/5 border border-white/10 px-6 py-4 rounded-xl text-xs font-mono tracking-wider hover:bg-white hover:text-black hover:border-white transition-all w-full lg:w-auto justify-center group/btn cursor-pointer">
+                            <button className="flex items-center space-x-3 bg-white/5 border border-white/10 px-6 py-4 rounded-xl text-xs font-mono tracking-wider hover:bg-white hover:text-black transition-all">
                               <span>Explore Interface Case</span>
                               <ArrowUpRight size={14} />
                             </button>
@@ -413,7 +435,7 @@ export default function App() {
                         className="bg-[#0a0a0c] border border-white/[0.04] rounded-2xl overflow-hidden p-3 group hover:border-white/20 transition-all cursor-zoom-in relative"
                       >
                         <div className="w-full aspect-[16/10] overflow-hidden rounded-xl bg-neutral-900 relative">
-                          <img src={imgUrl} alt="Interface Frame Capture Segment" className="w-full h-full object-cover filter grayscale contrast-[1.05] transition-transform duration-500 group-hover:scale-[1.02]" />
+                          <img src={imgUrl} alt="Interface Frame Capture Segment" className="w-full h-full object-cover filter grayscale contrast-[1.05] transition-transform duration-500 group-hover:scale-105" />
                           <div className="absolute top-3 right-3 p-2 bg-black/60 backdrop-blur-md rounded-lg text-white/60 opacity-0 group-hover:opacity-100 transition-opacity">
                             <Maximize2 size={12} />
                           </div>
@@ -444,18 +466,18 @@ export default function App() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="block text-[11px] font-mono uppercase text-[#7e7e87]">Identity / Brand</label>
-                  <input required name="name" type="text" placeholder="Alex Rivera" value={formData.name} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white focus:outline-none transition-all text-white placeholder-neutral-600" />
+                  <input required name="name" type="text" placeholder="Alex Rivera" value={formData.name} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white/30 focus:outline-none transition-colors" />
                 </div>
                 <div className="space-y-2">
                   <label className="block text-[11px] font-mono uppercase text-[#7e7e87]">Secure Mailbox</label>
-                  <input required name="email" type="email" placeholder="alex@brand.com" value={formData.email} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white focus:outline-none transition-all text-white placeholder-neutral-600" />
+                  <input required name="email" type="email" placeholder="alex@brand.com" value={formData.email} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white/30 focus:outline-none transition-colors" />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="block text-[11px] font-mono uppercase text-[#7e7e87]">Project Track</label>
-                  <select name="category" value={formData.category} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white focus:outline-none transition-all text-white cursor-pointer">
+                  <select name="category" value={formData.category} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white/30 focus:outline-none transition-colors">
                     <option>SaaS Platform</option>
                     <option>E-Commerce Hub</option>
                     <option>Immersive Showroom</option>
@@ -464,7 +486,7 @@ export default function App() {
                 </div>
                 <div className="space-y-2">
                   <label className="block text-[11px] font-mono uppercase text-[#7e7e87]">Target Budget Allocation</label>
-                  <select name="budget" value={formData.budget} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white focus:outline-none transition-all text-white cursor-pointer">
+                  <select name="budget" value={formData.budget} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white/30 focus:outline-none transition-colors">
                     <option>$1,000 - $2,000</option>
                     <option>$2,000 - $5,000</option>
                     <option>$5,000 - $10,000</option>
@@ -475,10 +497,10 @@ export default function App() {
 
               <div className="space-y-2">
                 <label className="block text-[11px] font-mono uppercase text-[#7e7e87]">Architectural Scope Details</label>
-                <textarea required name="details" rows={4} placeholder="Describe your performance metrics targets..." value={formData.details} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white focus:outline-none transition-all text-white resize-none placeholder-neutral-600" />
+                <textarea required name="details" rows={4} placeholder="Describe your performance metrics targets..." value={formData.details} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white/30 focus:outline-none transition-colors resize-none" />
               </div>
 
-              <button type="submit" disabled={isSubmitted} className="w-full flex items-center justify-center space-x-2 bg-white text-black font-mono font-bold text-xs uppercase tracking-widest py-4 rounded-xl hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
+              <button type="submit" disabled={isSubmitted} className="w-full flex items-center justify-center space-x-2 bg-white text-black font-mono font-bold text-xs uppercase tracking-widest py-4 rounded-xl hover:bg-neutral-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                 {isSubmitted ? (
                   <>
                     <CheckCircle2 size={14} className="text-emerald-500 animate-pulse" />
@@ -527,10 +549,13 @@ export default function App() {
 
       <AnimatePresence>
         {zoomImage && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 z-[100] pointer-events-auto">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-auto">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.95 }} exit={{ opacity: 0 }} onClick={() => setZoomImage(null)} className="absolute inset-0 bg-black cursor-zoom-out" />
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ type: "spring", damping: 30, stiffness: 300 }} className="relative max-w-5xl max-h-[85vh] z-10 select-none overflow-hidden rounded-xl border border-white/10 shadow-2xl bg-black p-1">
-              <button onClick={() => setZoomImage(null)} className="absolute top-4 right-4 z-20 p-2 bg-black/70 backdrop-blur-md border border-white/10 rounded-full text-white hover:bg-white hover:text-black transition-all cursor-pointer"><X size={16} /></button>
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ type: "spring", damping: 30, stiffness: 300 }} className="relative z-10">
+              <button onClick={() => setZoomImage(null)} className="absolute top-4 right-4 z-20 p-2 bg-black/70 backdrop-blur-md border border-white/10 rounded-full text-white hover:bg-white hover:text-black transition-colors">
+                <span className="sr-only">Close</span>
+                ✕
+              </button>
               <img src={zoomImage} alt="Expanded Interface Component View" className="w-full h-auto max-h-[80vh] object-contain rounded-lg filter grayscale" />
             </motion.div>
           </div>
