@@ -19,7 +19,6 @@ body {
   padding: 0;
 }
 
-/* Premium Permanent Text Gradient Engine Safeguard with Solid Fallback */
 .eye-candy-gradient {
   color: #ffffff;
   background-image: linear-gradient(to right, #a1a1aa 0%, #ffffff 50%, #71717a 100%);
@@ -28,7 +27,7 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* Bulletproof Tactical Anime.js Grid Container Structure */
+/* 🚀 TRUE ANIME.JS GRID STRUCTURE */
 .anime-grid-wrapper {
   position: fixed;
   inset: 0;
@@ -37,19 +36,23 @@ body {
   display: grid;
   grid-template-columns: repeat(25, 1fr);
   grid-template-rows: repeat(15, 1fr);
-  pointer-events: none;
-  z-index: 0;
-  padding: 20px;
+  z-index: 0; /* Sits perfectly behind the main content */
+  padding: 24px;
   box-sizing: border-box;
-  gap: 4px;
+  gap: 6px;
+  background-color: transparent;
 }
 
-/* Micro Tactical Grid Node */
+/* Individual Interactive Tiles */
 .tactical-node {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-radius: 2px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
   width: 100%;
   height: 100%;
+  position: relative;
+  /* Forces the GPU to handle the anime.js color/scale shifts instantly */
+  will-change: transform, background-color, border-color, z-index;
 }
 
 /* Micro-scrollbar interface overlay styling */

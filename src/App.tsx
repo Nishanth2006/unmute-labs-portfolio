@@ -3,23 +3,10 @@ import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionV
 import { ArrowUpRight, Mail, Terminal, ArrowLeft, Maximize2, X, Cpu, Layers, LayoutGrid, CheckCircle2 } from 'lucide-react';
 import * as anime from 'animejs';
 
-// --- STATIC LOCAL .JPG IMPORTS ---
-import aether1 from './assets/aether-1.jpg';
-import aether2 from './assets/aether-2.jpg';
-import aether3 from './assets/aether-3.jpg';
-
-import nexus1 from './assets/nexus-1.jpg';
-import nexus2 from './assets/nexus-2.jpg';
-
-import velocity1 from './assets/velocity-1.jpg';
-import velocity2 from './assets/velocity-2.jpg';
-// Safely unpack the engine from the wildcard object at runtime
-const animeEngine = (anime as any).default || anime;
-
 // --- CONFIGURATION CORNER ---
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_ENDPOINT_HERE";
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xoqykpzo"; 
 
-// 🎯 SAFE ENGINE UNPACKER: Resolves Vite namespace object wrapper bugs instantly
+// 🎯 SAFE ENGINE UNPACKER (Declared exactly once)
 const animeEngine = (anime as any).default || anime;
 
 interface Project {
@@ -32,7 +19,7 @@ interface Project {
   tech: string[];
   desc: string;
   longDesc: string;
-  gallery: { url: string; caption: string }[];
+  gallery: string[];
 }
 
 interface FormState {
@@ -55,9 +42,8 @@ const PORTFOLIO_DB: Project[] = [
     desc: "A high-end interaction showroom featuring dynamic asset loading pipelines, structural text layers, and asynchronous route state transitions engineered specifically for luxury boutique brands.",
     longDesc: "Aether EV redefines the digital showroom envelope. Built to explore smooth scrolling timelines, it handles custom client-side navigation matrices to keep heavy asset elements loaded seamlessly in the background without layout fracturing or page-flicker.",
     gallery: [
-      { url: aether1 as string, caption: "Hero Landing Framework - Heavy Contrast Perspective" },
-      { url: aether2 as string, caption: "Aerodynamic Propulsion Module Hub" },
-      { url: aether3 as string, caption: "Tactical Hardware Diagnostic Specifications Display" }
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800",
+      "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=800"
     ]
   },
   {
@@ -71,8 +57,8 @@ const PORTFOLIO_DB: Project[] = [
     desc: "A client-side analytics dashboard workspace. Built with an instantaneous light/dark mode design synchronization pipeline and reactive SVG rendering graphs calculating telemetry metrics data on the fly.",
     longDesc: "Nexus Analytics scales performance interpretation by bringing enterprise data tracking directly to the client view layer. It features dynamic mathematical path plotting variables to draw vector line configurations instantaneously from active state matrices.",
     gallery: [
-      { url: nexus1 as string, caption: "SaaS Management Interface Core Display View" },
-      { url: nexus2 as string, caption: "Interactive Live Vector Data Synthesis Engine" }
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800",
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800"
     ]
   },
   {
@@ -83,11 +69,11 @@ const PORTFOLIO_DB: Project[] = [
     category: "E-Commerce",
     metrics: "Instantaneous State Mutators / Slide Checkout Utility",
     tech: ["React", "Vite", "Tailwind v4", "AnimatePresence"],
-    desc: "A premium tactical retail storefront interface featuring live dynamic array asset filtering, transactional cart state management arrays, and smooth structural modal cart overlays optimized heavily for conversion velocity.",
+    desc: "A premium retail storefront interface featuring live dynamic array filtering, transactional cart state management arrays, and smooth structural modal cart overlays optimized heavily for conversion velocity.",
     longDesc: "Velocity Gear uses deep-state state manipulation architecture to keep client cart item parameters updated in absolute real-time. Paired with localized product filter pipelines, it decreases shopping transaction friction exponentially.",
     gallery: [
-      { url: velocity1 as string, caption: "Tactical Alpha V1 Equipment Selection Grid" },
-      { url: velocity2 as string, caption: "Transactional Sliding Package Framework" }
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=800",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?q=80&w=800"
     ]
   }
 ];
@@ -108,93 +94,70 @@ export default function App() {
   });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  // --- ANIME.JS STATIC MATRIX CONFIGURATION ---
-  const totalGridNodes = 375; // 25 columns * 15 rows matrix blocks layout
+  // --- 🚀 ANIME.JS GLOW TRAIL LOGIC (Zero React state updates = Zero Lag) ---
+  const totalGridNodes = 375; 
   const gridItemsArray = Array.from({ length: totalGridNodes });
 
-  // Handle pointer tracking metrics directly to fire ripples instantly through the verified layout unpacker
-  const triggerTacticalRipple = (e: React.MouseEvent<HTMLDivElement>) => {
-    const wrapper = e.currentTarget;
-    const bounds = wrapper.getBoundingClientRect();
+  const handleTileHover = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
     
-    const mouseX = e.clientX - bounds.left;
-    const mouseY = e.clientY - bounds.top;
+    // Stop any existing animation on this specific tile to prevent queue buildup
+    animeEngine.remove(el); 
     
-    const col = Math.floor((mouseX / bounds.width) * 25);
-    const row = Math.floor((mouseY / bounds.height) * 15);
-    const originNodeIndex = row * 25 + col;
-
-    if (isNaN(originNodeIndex) || originNodeIndex < 0 || originNodeIndex >= totalGridNodes) return;
-
+    // Fire the high-performance localized glow
     animeEngine({
-      targets: '.tactical-node',
-      scale: [
-        { value: 1.6, duration: 180, easing: 'easeOutQuad' },
-        { value: 1.0, duration: 650, easing: 'easeInQuad' }
-      ],
+      targets: el,
       backgroundColor: [
-        { value: 'rgba(255, 255, 255, 0.35)', duration: 180 },
-        { value: 'rgba(255, 255, 255, 0.06)', duration: 650 }
+        { value: 'rgba(255, 255, 255, 0.4)', duration: 0 },
+        { value: 'rgba(255, 255, 255, 0.02)', duration: 1500, easing: 'easeOutExpo' }
       ],
-      delay: animeEngine.stagger(12, {
-        grid: [25, 15],
-        from: originNodeIndex
-      })
+      borderColor: [
+        { value: 'rgba(255, 255, 255, 0.8)', duration: 0 },
+        { value: 'rgba(255, 255, 255, 0.02)', duration: 1500, easing: 'easeOutExpo' }
+      ],
+      scale: [
+        { value: 1.15, duration: 0 },
+        { value: 1, duration: 1500, easing: 'easeOutQuad' }
+      ],
+      zIndex: [
+        { value: 10, duration: 0 },
+        { value: 1, duration: 1500 }
+      ]
     });
   };
 
-  // Hero headline initial introduction slide-up sequence
-  useEffect(() => {
+  // Click pulse stagger (Because it looks awesome)
+  const handleTileClick = (index: number) => {
     animeEngine({
-      targets: '.hero-reveal-text',
-      translateY: [25, 0],
-      opacity: [0, 1],
-      duration: 1000,
-      delay: 100,
-      easing: 'cubicBezier(0.16, 1, 0.3, 1)'
+      targets: '.tactical-node',
+      backgroundColor: [
+        { value: 'rgba(255, 255, 255, 0.25)', duration: 100 },
+        { value: 'rgba(255, 255, 255, 0.02)', duration: 900 }
+      ],
+      scale: [
+        { value: 1.2, duration: 100 },
+        { value: 1, duration: 900 }
+      ],
+      delay: animeEngine.stagger(20, { grid: [25, 15], from: index }),
+      easing: 'easeOutQuad'
     });
-  }, []);
+  };
 
-  // Stagger layout card loads dynamically synchronized with current view filters
-  useEffect(() => {
-    if (currentPage === 'showroom') {
-      setTimeout(() => {
-        animeEngine({
-          targets: '.anime-project-card',
-          translateY: [30, 0],
-          opacity: [0, 1],
-          delay: animeEngine.stagger(80, { start: 100 }),
-          duration: 800,
-          easing: 'cubicBezier(0.16, 1, 0.3, 1)'
-        });
-      }, 30);
-    }
-  }, [currentPage, activeFilter]);
-
-  // Framer motion interactive cursor pointer trail tracking layout configuration
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
-  const glowX = useMotionValue(-200);
-  const glowY = useMotionValue(-200);
-
-  const springConfig = { damping: 35, stiffness: 350, mass: 0.3 };
-  const glowConfig = { damping: 55, stiffness: 100, mass: 0.9 };
-
-  const cursorXSpring = useSpring(cursorX, springConfig);
-  const cursorYSpring = useSpring(cursorY, springConfig);
-  const glowXSpring = useSpring(glowX, glowConfig);
-  const glowYSpring = useSpring(glowY, glowConfig);
+  // --- CUSTOM CURSOR TRACKING ---
+  const rawX = useMotionValue(-1000);
+  const rawY = useMotionValue(-1000);
+  
+  const springCursorX = useSpring(rawX, { damping: 35, stiffness: 350, mass: 0.3 });
+  const springCursorY = useSpring(rawY, { damping: 35, stiffness: 350, mass: 0.3 });
 
   useEffect(() => {
-    const moveCursor = (e: MouseEvent) => {
-      cursorX.set(e.clientX - 16);
-      cursorY.set(e.clientY - 16);
-      glowX.set(e.clientX - 200);
-      glowY.set(e.clientY - 200);
+    const handleGlobalMouseMove = (e: MouseEvent) => {
+      rawX.set(e.clientX - 16);
+      rawY.set(e.clientY - 16);
     };
-    window.addEventListener('mousemove', moveCursor);
-    return () => window.removeEventListener('mousemove', moveCursor);
-  }, [cursorX, cursorY, glowX, glowY]);
+    window.addEventListener('mousemove', handleGlobalMouseMove);
+    return () => window.removeEventListener('mousemove', handleGlobalMouseMove);
+  }, [rawX, rawY]);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -242,10 +205,10 @@ export default function App() {
 
       if (response.ok) {
         setIsSubmitted(true);
-        setConsoleMessage(`TRANSMISSION SUCCESSFUL: Lead packet successfully pushed to mailbox queue. Client "${formData.name}" tracked completely.`);
+        setConsoleMessage(`TRANSMISSION SUCCESSFUL: Lead packet pushed to queue. Client "${formData.name}" tracked completely.`);
         setFormData({ name: '', email: '', category: 'SaaS Platform', budget: '$2,000 - $5,000', details: '' });
       } else {
-        setConsoleMessage("TRANSMISSION ERROR: Endpoint pipeline handshake failed. Check your unique configuration token value.");
+        setConsoleMessage("TRANSMISSION ERROR: Endpoint pipeline handshake failed.");
       }
     } catch (err) {
       setConsoleMessage("CRITICAL CORRUPTION FAILURE: Unable to locate active online routing network gateway pipelines.");
@@ -255,31 +218,29 @@ export default function App() {
   return (
     <div 
       ref={containerRef} 
-      onMouseMove={triggerTacticalRipple}
       className="relative bg-[#030303] text-white selection:bg-white selection:text-black min-h-screen antialiased overflow-hidden"
     >
       
-      {/* SOLID MESH NODES OVERLAY GRID DECK */}
+      {/* 🚀 PERFECT ANIME.JS GRID OVERLAY (Z-Index 0) */}
       <div className="anime-grid-wrapper">
         {gridItemsArray.map((_, index) => (
-          <div key={index} className="tactical-node" />
+          <div 
+            key={index} 
+            className="tactical-node"
+            onMouseEnter={handleTileHover}
+            onClick={() => handleTileClick(index)}
+          />
         ))}
       </div>
 
-      {/* DYNAMIC AMBIENT MOUSE TRAIL GLOW */}
+      {/* CUSTOM POINTER */}
       <motion.div 
-        className="fixed top-0 left-0 w-[400px] h-[400px] rounded-full bg-white/[0.015] blur-[120px] pointer-events-none z-0 hidden md:block"
-        style={{ x: glowXSpring, y: glowYSpring }}
+        className="fixed top-0 left-0 w-8 h-8 border border-white/40 rounded-full pointer-events-none z-50 hidden md:block mix-blend-difference"
+        style={{ x: springCursorX, y: springCursorY }}
       />
 
-      {/* INTERACTIVE POINTER TRAIL */}
-      <motion.div 
-        className="fixed top-0 left-0 w-8 h-8 border border-white rounded-full pointer-events-none z-50 hidden md:block mix-blend-difference"
-        style={{ x: cursorXSpring, y: cursorYSpring }}
-      />
-
-      {/* MASTER TRANSPARENT NAVBAR */}
-      <nav className="fixed top-0 left-0 w-full z-40 border-b border-white/[0.03] backdrop-blur-md bg-[#030303]/30 px-6 md:px-12 py-6 flex justify-between items-center">
+      {/* NAVBAR */}
+      <nav className="fixed top-0 left-0 w-full z-40 border-b border-white/[0.03] backdrop-blur-md bg-[#030303]/30 px-6 md:px-12 py-6 flex justify-between items-center pointer-events-auto">
         <button onClick={backToShowroom} className="flex items-center space-x-2 text-left bg-transparent border-none cursor-pointer">
           <span className="font-extrabold text-sm tracking-[0.3em] uppercase">UNMUTE LABS</span>
           <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
@@ -293,178 +254,183 @@ export default function App() {
         </a>
       </nav>
 
-      {/* MAIN VIEW CONTROLLER SYSTEM */}
-      <main className="relative z-10">
-        <AnimatePresence mode="wait">
-          
-          {currentPage === 'showroom' && (
-            <motion.div
-              key="showroom-view"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
-            >
-              {/* HERO SECTION */}
-              <motion.section 
-                style={{ opacity: heroOpacity }}
-                className="relative h-screen w-full flex flex-col justify-center items-center px-6 md:px-12 overflow-hidden border-b border-white/[0.02]"
+      {/* MAIN CONTENT WRAPPER */}
+      {/* Note: The empty background areas let pointer events fall through to the grid tiles below */}
+      <main className="relative z-10 pointer-events-none">
+        
+        {/* Reactivate pointer events for the actual interactive children components */}
+        <div className="pointer-events-auto">
+          <AnimatePresence mode="wait">
+            
+            {currentPage === 'showroom' && (
+              <motion.div
+                key="showroom-view"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
               >
-                <motion.div style={{ y: heroTextY }} className="text-center max-w-4xl space-y-6 z-10">
-                  <span className="hero-reveal-text opacity-0 text-[10px] font-mono tracking-[0.4em] text-[#7e7e87] uppercase block">
-                    [ FRONTEND ARCHITECT / INTERACTION SPECIALIST ]
-                  </span>
-                  <h1 className="hero-reveal-text opacity-0 text-4xl sm:text-7xl font-black tracking-tighter uppercase leading-[0.95] mb-4">
-                    High-fidelity code. <br/>
-                    <span className="eye-candy-gradient block mt-2">Fluid digital motion.</span>
-                  </h1>
-                  <p className="hero-reveal-text opacity-0 text-[#7e7e87] text-sm sm:text-base max-w-xl mx-auto font-light leading-relaxed">
-                    Engineering ultra-smooth web systems, responsive interface engines, and zero-latency state controllers tailored specifically for premium corporate platforms.
-                  </p>
-                </motion.div>
-              </motion.section>
+                <motion.section 
+                  style={{ opacity: heroOpacity }}
+                  className="relative h-screen w-full flex flex-col justify-center items-center px-6 md:px-12 border-b border-white/[0.02]"
+                >
+                  <motion.div style={{ y: heroTextY }} className="text-center max-w-4xl space-y-6 z-10 pointer-events-none">
+                    <span className="text-[10px] font-mono tracking-[0.4em] text-[#7e7e87] uppercase block">
+                      [ FRONTEND ARCHITECT / INTERACTION SPECIALIST ]
+                    </span>
+                    <h1 className="text-4xl sm:text-7xl font-black tracking-tighter uppercase leading-[0.95] mb-4">
+                      High-fidelity code. <br/>
+                      <span className="eye-candy-gradient block mt-2">Fluid digital motion.</span>
+                    </h1>
+                    <p className="text-[#7e7e87] text-sm sm:text-base max-w-xl mx-auto font-light leading-relaxed">
+                      Engineering ultra-smooth web systems, responsive interface engines, and zero-latency state controllers tailored specifically for premium corporate platforms.
+                    </p>
+                  </motion.div>
+                </motion.section>
 
-              {/* PROJECT SHOWCASE GRID */}
-              <section className="w-full py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto">
-                <div className="flex flex-col md:flex-row md:justify-between md:items-end border-b border-white/[0.04] pb-8 mb-16 gap-6">
-                  <div>
-                    <span className="text-[10px] font-mono tracking-widest text-[#7e7e87] uppercase block mb-2">[ PRODUCT SHOWROOM ]</span>
-                    <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight uppercase">Operational Infrastructure.</h2>
+                <section className="w-full py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto">
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-end border-b border-white/[0.04] pb-8 mb-16 gap-6">
+                    <div>
+                      <span className="text-[10px] font-mono tracking-widest text-[#7e7e87] uppercase block mb-2">[ PRODUCT SHOWROOM ]</span>
+                      <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight uppercase">Operational Infrastructure.</h2>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-1.5 bg-[#0a0a0c] p-1 border border-white/[0.04] rounded-xl font-mono text-[11px]">
+                      {["ALL", "BRANDING", "SAAS", "E-COMMERCE"].map(category => (
+                        <button
+                          key={category}
+                          onClick={() => setActiveFilter(category)}
+                          className={`px-4 py-2 rounded-lg font-medium tracking-wide transition-all uppercase cursor-pointer ${activeFilter === category ? 'bg-white text-black font-bold' : 'text-[#7e7e87] hover:text-white'}`}
+                        >
+                          {category}
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-1.5 bg-[#0a0a0c] p-1 border border-white/[0.04] rounded-xl font-mono text-[11px]">
-                    {["ALL", "BRANDING", "SAAS", "E-COMMERCE"].map(category => (
-                      <button
-                        key={category}
-                        onClick={() => setActiveFilter(category)}
-                        className={`px-4 py-2 rounded-lg font-medium tracking-wide transition-all uppercase cursor-pointer ${activeFilter === category ? 'bg-white text-black font-bold' : 'text-[#7e7e87] hover:text-white'}`}
+                  <div className="grid grid-cols-1 gap-8">
+                    {filteredProjects.map((project) => (
+                      <div
+                        key={project.id}
+                        onClick={() => navigateToProject(project)}
+                        className="w-full bg-[#0a0a0c]/80 backdrop-blur-md border border-white/[0.04] rounded-3xl p-6 md:p-10 flex flex-col justify-between group hover:border-white/20 transition-all relative overflow-hidden cursor-pointer"
                       >
-                        {category}
-                      </button>
+                        <div className="absolute -top-12 -right-12 text-[10vw] font-black text-white/[0.01] select-none uppercase pointer-events-none font-mono">
+                          {project.num}
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start relative z-10">
+                          <div className="lg:col-span-1 space-y-4">
+                            <div className="flex items-center space-x-3">
+                              <span className="text-xs font-mono font-bold text-[#7e7e87] border border-white/10 px-2.5 py-0.5 rounded-md bg-black/40">
+                                {project.category}
+                              </span>
+                            </div>
+                            <h3 className="text-2xl md:text-3xl font-black tracking-tight uppercase group-hover:text-neutral-300 transition-colors">
+                              {project.title}
+                            </h3>
+                            <p className="text-xs text-white/90 font-mono font-medium tracking-wide">⚡ {project.metrics}</p>
+                          </div>
+
+                          <div className="lg:col-span-1">
+                            <p className="text-[#7e7e87] text-sm font-light leading-relaxed pt-1">{project.desc}</p>
+                            <div className="flex flex-wrap gap-1.5 mt-4">
+                              {project.tech.map((t, idx) => (
+                                <span key={idx} className="text-[10px] font-mono px-2.5 py-1 rounded bg-white/[0.02] border border-white/[0.03] text-neutral-400">{t}</span>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div className="lg:col-span-1 flex lg:justify-end items-center h-full">
+                            <button className="flex items-center space-x-3 bg-white/5 border border-white/10 px-6 py-4 rounded-xl text-xs font-mono tracking-wider hover:bg-white hover:text-black hover:border-white transition-all w-full lg:w-auto justify-center group/btn cursor-pointer">
+                              <span>Explore Interface Case</span>
+                              <ArrowUpRight size={14} />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              </motion.div>
+            )}
+
+            {currentPage === 'project' && selectedProject && (
+              <motion.div
+                key="project-view"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -30 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="pt-28 px-4 sm:px-6 md:px-12 max-w-6xl mx-auto pb-24"
+              >
+                <button 
+                  onClick={backToShowroom}
+                  className="flex items-center space-x-2 text-xs font-mono text-[#7e7e87] hover:text-white transition-colors mb-8 cursor-pointer uppercase tracking-widest bg-transparent border-none"
+                >
+                  <ArrowLeft size={14} />
+                  <span>Back to Master Showroom</span>
+                </button>
+
+                <div className="border-b border-white/[0.05] pb-10 mb-12 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
+                  <div>
+                    <span className="text-xs font-mono text-[#7e7e87] uppercase tracking-wider block mb-2">// PROJECT MODULE {selectedProject.num}</span>
+                    <h1 className="text-4xl sm:text-6xl font-black uppercase tracking-tight leading-none">{selectedProject.title}</h1>
+                    <p className="text-sm text-neutral-400 font-mono mt-3">⚡ {selectedProject.metrics}</p>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5 max-w-xs md:justify-end">
+                    {selectedProject.tech.map((t, idx) => (
+                      <span key={idx} className="text-[10px] font-mono px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.04] text-neutral-300">{t}</span>
                     ))}
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 gap-8">
-                  {filteredProjects.map((project) => (
-                    <div
-                      key={project.id}
-                      onClick={() => navigateToProject(project)}
-                      className="anime-project-card opacity-0 w-full bg-[#0a0a0c]/80 backdrop-blur-md border border-white/[0.04] rounded-3xl p-6 md:p-10 flex flex-col justify-between group hover:border-white/20 transition-all relative overflow-hidden cursor-pointer"
-                    >
-                      <div className="absolute -top-12 -right-12 text-[10vw] font-black text-white/[0.01] select-none uppercase pointer-events-none font-mono">
-                        {project.num}
-                      </div>
-
-                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start relative z-10">
-                        <div className="lg:col-span-1 space-y-4">
-                          <div className="flex items-center space-x-3">
-                            <span className="text-xs font-mono font-bold text-[#7e7e87] border border-white/10 px-2.5 py-0.5 rounded-md bg-black/40">
-                              {project.category}
-                            </span>
-                          </div>
-                          <h3 className="text-2xl md:text-3xl font-black tracking-tight uppercase group-hover:text-neutral-300 transition-colors">
-                            {project.title}
-                          </h3>
-                          <p className="text-xs text-white/90 font-mono font-medium tracking-wide">⚡ {project.metrics}</p>
-                        </div>
-
-                        <div className="lg:col-span-1">
-                          <p className="text-[#7e7e87] text-sm font-light leading-relaxed pt-1">{project.desc}</p>
-                          <div className="flex flex-wrap gap-1.5 mt-4">
-                            {project.tech.map((t, idx) => (
-                              <span key={idx} className="text-[10px] font-mono px-2.5 py-1 rounded bg-white/[0.02] border border-white/[0.03] text-neutral-400">{t}</span>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="lg:col-span-1 flex lg:justify-end items-center h-full">
-                          <button className="flex items-center space-x-3 bg-white/5 border border-white/10 px-6 py-4 rounded-xl text-xs font-mono tracking-wider hover:bg-white hover:text-black hover:border-white transition-all w-full lg:w-auto justify-center group/btn cursor-pointer">
-                            <span>Explore Interface Case</span>
-                            <ArrowUpRight size={14} />
-                          </button>
-                        </div>
-                      </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                  <div className="md:col-span-2">
+                    <h4 className="text-xs font-mono text-[#7e7e87] uppercase tracking-widest mb-3 flex items-center gap-1.5"><Cpu size={12} /> Engineering Blueprint</h4>
+                    <p className="text-neutral-300 text-sm md:text-base font-light leading-relaxed">{selectedProject.longDesc}</p>
+                  </div>
+                  <div className="bg-[#0a0a0c] border border-white/[0.04] p-6 rounded-2xl flex flex-col justify-between">
+                    <span className="text-[10px] font-mono text-[#7e7e87] tracking-widest uppercase block mb-4"><Layers size={11} /> Deployment Status</span>
+                    <div className="space-y-2">
+                      <div className="text-xs font-mono text-neutral-400">Pipeline: <span className="text-white font-bold">Verified Production</span></div>
+                      <div className="text-xs font-mono text-neutral-400">Response Offset: <span className="text-emerald-400 font-bold">0.02ms</span></div>
                     </div>
-                  ))}
-                </div>
-              </section>
-            </motion.div>
-          )}
-
-          {currentPage === 'project' && selectedProject && (
-            <motion.div
-              key="project-view"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -30 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="pt-28 px-4 sm:px-6 md:px-12 max-w-6xl mx-auto pb-24"
-            >
-              <button 
-                onClick={backToShowroom}
-                className="flex items-center space-x-2 text-xs font-mono text-[#7e7e87] hover:text-white transition-colors mb-8 cursor-pointer uppercase tracking-widest bg-transparent border-none"
-              >
-                <ArrowLeft size={14} />
-                <span>Back to Master Showroom</span>
-              </button>
-
-              <div className="border-b border-white/[0.05] pb-10 mb-12 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
-                <div>
-                  <span className="text-xs font-mono text-[#7e7e87] uppercase tracking-wider block mb-2">// PROJECT MODULE {selectedProject.num}</span>
-                  <h1 className="text-4xl sm:text-6xl font-black uppercase tracking-tight leading-none">{selectedProject.title}</h1>
-                  <p className="text-sm text-neutral-400 font-mono mt-3">⚡ {selectedProject.metrics}</p>
-                </div>
-                <div className="flex flex-wrap gap-1.5 max-w-xs md:justify-end">
-                  {selectedProject.tech.map((t, idx) => (
-                    <span key={idx} className="text-[10px] font-mono px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.04] text-neutral-300">{t}</span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                <div className="md:col-span-2">
-                  <h4 className="text-xs font-mono text-[#7e7e87] uppercase tracking-widest mb-3 flex items-center gap-1.5"><Cpu size={12} /> Engineering Blueprint</h4>
-                  <p className="text-neutral-300 text-sm md:text-base font-light leading-relaxed">{selectedProject.longDesc}</p>
-                </div>
-                <div className="bg-[#0a0a0c] border border-white/[0.04] p-6 rounded-2xl flex flex-col justify-between">
-                  <span className="text-[10px] font-mono text-[#7e7e87] tracking-widest uppercase block mb-4"><Layers size={11} /> Deployment Status</span>
-                  <div className="space-y-2">
-                    <div className="text-xs font-mono text-neutral-400">Pipeline: <span className="text-white font-bold">Verified Production</span></div>
-                    <div className="text-xs font-mono text-neutral-400">Response Offset: <span className="text-emerald-400 font-bold">0.02ms</span></div>
                   </div>
                 </div>
-              </div>
 
-              <div className="space-y-6">
-                <h4 className="text-xs font-mono text-[#7e7e87] uppercase tracking-widest mb-4 flex items-center gap-1.5"><LayoutGrid size={12} /> Interface Captures (Click Component to Expand)</h4>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {selectedProject.gallery.map((img, i) => (
-                    <div 
-                      key={i}
-                      onClick={() => setZoomImage(img.url)}
-                      className="bg-[#0a0a0c] border border-white/[0.04] rounded-2xl overflow-hidden p-3 group hover:border-white/20 transition-all cursor-zoom-in relative"
-                    >
-                      <div className="w-full aspect-[16/10] overflow-hidden rounded-xl bg-neutral-900 relative">
-                        <img src={img.url} alt={img.caption} className="w-full h-full object-cover filter grayscale contrast-[1.05] transition-transform duration-500 group-hover:scale-[1.02]" />
-                        <div className="absolute top-3 right-3 p-2 bg-black/60 backdrop-blur-md rounded-lg text-white/60 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <Maximize2 size={12} />
+                <div className="space-y-6">
+                  <h4 className="text-xs font-mono text-[#7e7e87] uppercase tracking-widest mb-4 flex items-center gap-1.5">
+                    <LayoutGrid size={12} /> 
+                    <span>Interface Captures (Click Component to Expand)</span>
+                  </h4>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {selectedProject.gallery.map((imgUrl, i) => (
+                      <div 
+                        key={i}
+                        onClick={() => setZoomImage(imgUrl)}
+                        className="bg-[#0a0a0c] border border-white/[0.04] rounded-2xl overflow-hidden p-3 group hover:border-white/20 transition-all cursor-zoom-in relative"
+                      >
+                        <div className="w-full aspect-[16/10] overflow-hidden rounded-xl bg-neutral-900 relative">
+                          <img src={imgUrl} alt="Interface Frame Capture Segment" className="w-full h-full object-cover filter grayscale contrast-[1.05] transition-transform duration-500 group-hover:scale-[1.02]" />
+                          <div className="absolute top-3 right-3 p-2 bg-black/60 backdrop-blur-md rounded-lg text-white/60 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Maximize2 size={12} />
+                          </div>
                         </div>
+                        <p className="text-[11px] font-mono text-neutral-400 mt-3 px-1">Blueprint Interface Subview Track Component Module - [0{i + 1}]</p>
                       </div>
-                      <p className="text-[11px] font-mono text-neutral-400 mt-3 px-1">{img.caption}</p>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          )}
+              </motion.div>
+            )}
 
-        </AnimatePresence>
+          </AnimatePresence>
+        </div>
       </main>
 
-      {/* LEAD CAPTURE FORM DECK */}
-      <section id="hire" className="w-full bg-[#0a0a0c]/90 border-t border-white/[0.03] py-24 px-4 sm:px-6 md:px-12 relative z-20">
+      <section id="hire" className="w-full bg-[#0a0a0c]/90 border-t border-white/[0.03] py-24 px-4 sm:px-6 md:px-12 relative z-20 pointer-events-auto">
         <div className="max-w-4xl mx-auto space-y-12">
           <div className="text-center space-y-3">
             <span className="text-[10px] font-mono tracking-widest text-[#7e7e87] uppercase block">[ CLIENT INGESTION PIPELINE ]</span>
@@ -509,7 +475,7 @@ export default function App() {
 
               <div className="space-y-2">
                 <label className="block text-[11px] font-mono uppercase text-[#7e7e87]">Architectural Scope Details</label>
-                <textarea required name="details" rows={4} placeholder="Describe your performance metrics targets, preferred timeline layouts, or functional design goals..." value={formData.details} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white focus:outline-none transition-all text-white resize-none placeholder-neutral-600" />
+                <textarea required name="details" rows={4} placeholder="Describe your performance metrics targets..." value={formData.details} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white focus:outline-none transition-all text-white resize-none placeholder-neutral-600" />
               </div>
 
               <button type="submit" disabled={isSubmitted} className="w-full flex items-center justify-center space-x-2 bg-white text-black font-mono font-bold text-xs uppercase tracking-widest py-4 rounded-xl hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
@@ -559,10 +525,9 @@ export default function App() {
         </div>
       </section>
 
-      {/* EXPERT LIGHTBOX ZOOM MASK */}
       <AnimatePresence>
         {zoomImage && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 z-[100] pointer-events-auto">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.95 }} exit={{ opacity: 0 }} onClick={() => setZoomImage(null)} className="absolute inset-0 bg-black cursor-zoom-out" />
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ type: "spring", damping: 30, stiffness: 300 }} className="relative max-w-5xl max-h-[85vh] z-10 select-none overflow-hidden rounded-xl border border-white/10 shadow-2xl bg-black p-1">
               <button onClick={() => setZoomImage(null)} className="absolute top-4 right-4 z-20 p-2 bg-black/70 backdrop-blur-md border border-white/10 rounded-full text-white hover:bg-white hover:text-black transition-all cursor-pointer"><X size={16} /></button>
