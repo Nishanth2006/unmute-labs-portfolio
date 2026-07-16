@@ -27,7 +27,7 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* 🚀 TRUE ANIME.JS GRID STRUCTURE */
+/* 🚀 ANIME.JS GRID: POINTER-EVENTS ENABLED FOR TILE HITS */
 .anime-grid-wrapper {
   position: fixed;
   inset: 0;
@@ -36,33 +36,89 @@ body {
   display: grid;
   grid-template-columns: repeat(25, 1fr);
   grid-template-rows: repeat(15, 1fr);
-  z-index: 0; /* Sits perfectly behind the main content */
+  z-index: 1;
   padding: 24px;
   box-sizing: border-box;
   gap: 6px;
   background-color: transparent;
+  
+  /* CRITICAL: Enable pointer events on grid wrapper to capture tile hovers */
+  pointer-events: auto;
+  
+  /* Prevent accidental selection during rapid interactions */
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-/* Individual Interactive Tiles */
+/* Individual Interactive Tiles - GPU-OPTIMIZED FOR 60 FPS */
 .tactical-node {
-  background-color: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.02);
+  /* Pre-allocate GPU memory for smooth color/scale/opacity transforms */
+  will-change: transform, background-color, border-color, opacity;
+  
+  /* Initialize CSS variables for hardware-accelerated color shifts */
+  --node-bg: rgba(255, 255, 255, 0.02);
+  --node-border: rgba(255, 255, 255, 0.02);
+  
+  background-color: var(--node-bg);
+  border: 1px solid var(--node-border);
   border-radius: 4px;
   width: 100%;
   height: 100%;
   position: relative;
-  /* Forces the GPU to handle the anime.js color/scale shifts instantly */
-  will-change: transform, background-color, border-color, z-index;
+  
+  /* Enable pointer events ONLY on tiles (children still clickable) */
+  pointer-events: auto;
+  cursor: pointer;
+  
+  /* Disable text selection to prevent layout thrashing */
+  user-select: none;
+  -webkit-user-select: none;
+  
+  /* GPU layer isolation: prevent render layer thrashing */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  transform: translateZ(0);
+  
+  /* Isolate paint/layout/composite operations to this element only */
+  contain: layout style paint;
+  
+  /* Smooth paint transitions */
+  transition: none;
 }
 
-/* Micro-scrollbar interface overlay styling */
+/* Micro-scrollbar styling (non-interactive element) */
 ::-webkit-scrollbar {
   width: 4px;
 }
+
 ::-webkit-scrollbar-track {
   background: #030303;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #1f1f23;
   border-radius: 2px;
+}
+
+/* Ensure main content doesn't block grid interactions */
+main {
+  pointer-events: auto;
+}
+
+/* Re-enable pointer events ONLY for interactive form elements */
+input,
+textarea,
+select,
+button,
+a {
+  pointer-events: auto;
+}
+
+/* Prevent accidental text selection on UI elements */
+button,
+a,
+[role="button"] {
+  user-select: none;
+  -webkit-user-select: none;
 }
