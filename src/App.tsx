@@ -170,7 +170,7 @@ export default function App() {
     };
   }, []);
 
-  // --- 🚀 INTERACTIVE LOG COMPILER GLITCH EFFECT ---
+  // --- 🚀 DYNAMIC LOG COMPILER DECRYPT EFFECT ---
   const triggerGlitchText = (targetString: string) => {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*()_-+=";
     let iterations = 0;
@@ -190,7 +190,7 @@ export default function App() {
       if (iterations >= targetString.length) {
         clearInterval(interval);
       }
-      iterations += 2; // Speed parameter mutation steps
+      iterations += 2;
     }, 24);
   };
 
@@ -315,27 +315,16 @@ export default function App() {
                 style={{ opacity: heroOpacity }}
                 className="relative h-screen w-full flex flex-col justify-center items-center px-6 md:px-12 border-b border-white/[0.02]"
               >
-                <motion.div style={{ y: heroTextY }} className="text-center max-w-5xl space-y-6 z-10">
+                {/* 🎯 RESTORED: Stable text elements layout structure */}
+                <motion.div style={{ y: heroTextY }} className="text-center max-w-4xl space-y-6 z-10">
                   <span className="text-[10px] font-mono tracking-[0.4em] text-[#7e7e87] uppercase block">
                     [ FRONTEND ARCHITECT / INTERACTION SPECIALIST ]
                   </span>
                   
-                  {/* 🚀 ENHANCEMENT #2: HIGH-FIDELITY LASER TEXT MORPHING VECTOR CONTAINER */}
-                  <div className="w-full flex justify-center py-4 select-none">
-                    <svg viewBox="0 0 950 90" className="w-full max-w-4xl font-black uppercase tracking-tighter laser-text-morph">
-                      <text x="50%" y="70%" textAnchor="middle" className="laser-font-vector">
-                        High-fidelity code.
-                      </text>
-                    </svg>
-                  </div>
-
-                  <div className="w-full flex justify-center pb-4 select-none">
-                    <svg viewBox="0 0 950 90" className="w-full max-w-4xl font-black uppercase tracking-tighter laser-text-morph delay-morph">
-                      <text x="50%" y="70%" textAnchor="middle" className="laser-font-vector-gradient">
-                        Fluid digital motion.
-                      </text>
-                    </svg>
-                  </div>
+                  <h1 className="text-4xl sm:text-7xl font-black tracking-tighter uppercase leading-[0.95] mb-4">
+                    High-fidelity code. <br/>
+                    <span className="eye-candy-gradient block mt-2">Fluid digital motion.</span>
+                  </h1>
 
                   <p className="text-[#7e7e87] text-sm sm:text-base max-w-xl mx-auto font-light leading-relaxed">
                     Engineering ultra-smooth web systems, responsive interface engines, and zero-latency state controllers tailored specifically for premium corporate platforms.
@@ -370,10 +359,9 @@ export default function App() {
                     <div
                       key={project.id}
                       onClick={() => navigateToProject(project)}
-                      /* 🚀 ENHANCEMENT #3: ELASTIC LINE-FOLLOWER HOVER TILES WRAPPER */
                       className="w-full bg-[#0a0a0c]/80 backdrop-blur-md rounded-3xl p-6 md:p-10 flex flex-col justify-between group cursor-pointer pointer-events-auto relative border border-white/[0.04] hover-elastic-card overflow-hidden"
                     >
-                      {/* Elastic Accent Line Injector Nodes */}
+                      {/* Elastic Border Lines */}
                       <div className="elastic-border-line top" />
                       <div className="elastic-border-line right" />
                       <div className="elastic-border-line bottom" />
@@ -555,7 +543,7 @@ export default function App() {
               </button>
             </form>
 
-            {/* MONITOR CORE CONSOLE LOG DECK VIEW */}
+            {/* MONITOR CONSOLE */}
             <div className="lg:col-span-5 w-full border border-white/[0.05] rounded-2xl bg-black font-mono overflow-hidden shadow-2xl pointer-events-auto">
               <div className="bg-neutral-900/60 border-b border-white/[0.05] px-4 py-3 flex items-center justify-between text-xs text-neutral-400">
                 <div className="flex items-center space-x-2">
@@ -578,7 +566,6 @@ export default function App() {
                     <p><span className="text-purple-400">project_track:</span> <span className="text-emerald-400">"{formData.category}"</span></p>
                     <p><span className="text-purple-400">budget_allocation:</span> <span className="text-amber-400 font-bold">"{formData.budget}"</span></p>
                   </div>
-                  {/* Glitch Stream Output Area */}
                   <p className="text-emerald-500 font-semibold text-[11px] leading-normal min-h-[50px] transition-all break-words">&gt; {consoleMessage}</p>
                 </div>
                 <p className="text-[10px] text-neutral-600 pt-4 border-t border-white/[0.03]">Input elements automatically register inside the tracking buffer matrix row.</p>
@@ -588,7 +575,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* OVERLAY LIGHTBOX ZOOM CONTAINER */}
+      {/* OVERLAY LIGHTBOX */}
       <AnimatePresence>
         {zoomImage && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-auto">
