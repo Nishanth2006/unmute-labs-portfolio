@@ -27,44 +27,44 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* 🚀 HIGH-PERFORMANCE ELASTIC HOVER LINE-FOLLOWER */
-.hover-elastic-card {
+/* 🚀 TRUE VECTOR PATH TRAVELED LINE */
+.project-vector-card {
   position: relative;
-  transition: border-color 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background-color 0.3s ease;
 }
 
-.elastic-border-line {
-  position: absolute;
-  background: linear-gradient(to right, transparent, #ffffff, transparent);
+.vector-laser-stroke {
+  stroke: #ffffff;
+  stroke-width: 1.5px;
+  /* Creates a clean, distinct line segment that travels the path length */
+  stroke-dasharray: 160 1200; 
+  stroke-dashoffset: 0;
   opacity: 0;
-  transition: all 0.5s cubic-bezier(0.25, 1, 0.2, 1);
-  will-change: transform, opacity;
+  will-change: stroke-dashoffset, opacity;
+  transition: opacity 0.3s ease;
 }
 
-.elastic-border-line.top {
-  top: 0; left: -100%; width: 100%; height: 1px;
-}
-.elastic-border-line.right {
-  top: -100%; right: 0; width: 1px; height: 100%;
-  background: linear-gradient(to bottom, transparent, #ffffff, transparent);
-}
-.elastic-border-line.bottom {
-  bottom: 0; right: -100%; width: 100%; height: 1px;
-}
-.elastic-border-line.left {
-  bottom: -100%; left: 0; width: 1px; height: 100%;
-  background: linear-gradient(to top, transparent, #ffffff, transparent);
+/* On hover, engage a continuous looping race around the exact card borders */
+@keyframes vectorLineTravel {
+  0% {
+    stroke-dashoffset: 1360;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
-.hover-elastic-card:hover .elastic-border-line.top { left: 100%; opacity: 1; }
-.hover-elastic-card:hover .elastic-border-line.right { top: 100%; opacity: 1; transition-delay: 0.1s; }
-.hover-elastic-card:hover .elastic-border-line.bottom { right: 100%; opacity: 1; transition-delay: 0.2s; }
-.hover-elastic-card:hover .elastic-border-line.left { top: -100%; opacity: 1; transition-delay: 0.3s; }
+.project-vector-card:hover .vector-laser-stroke {
+  opacity: 1;
+  animation: vectorLineTravel 3s linear infinite;
+}
 
 /* Micro-scrollbar interface overlay styling */
 ::-webkit-scrollbar {
   width: 4px;
 }
+grid-wrapper
 ::-webkit-scrollbar-track {
   background: #030303;
 }

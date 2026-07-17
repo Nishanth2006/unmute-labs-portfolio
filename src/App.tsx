@@ -170,7 +170,7 @@ export default function App() {
     };
   }, []);
 
-  // --- 🚀 DYNAMIC LOG COMPILER DECRYPT EFFECT ---
+  // --- DYNAMIC LOG COMPILER DECRYPT EFFECT ---
   const triggerGlitchText = (targetString: string) => {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*()_-+=";
     let iterations = 0;
@@ -271,7 +271,7 @@ export default function App() {
       className="relative bg-[#030303] text-white selection:bg-white selection:text-black min-h-screen antialiased overflow-hidden"
     >
       
-      {/* GLOWING CANVAS ENGINE LAYER */}
+      {/* CANVAS BACKEND GRAPH */}
       <canvas 
         ref={canvasRef} 
         className="fixed inset-0 w-screen h-screen z-0 pointer-events-none bg-[#030303]"
@@ -298,7 +298,7 @@ export default function App() {
         </a>
       </nav>
 
-      {/* SYSTEM WORKSPACE INTERFACE */}
+      {/* MASTER WORKSPACE VIEWPORT */}
       <main className="relative z-20 pointer-events-none">
         <AnimatePresence mode="wait">
           
@@ -310,12 +310,10 @@ export default function App() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.4 }}
             >
-              {/* HERO DECK OVERLAY VIEW */}
               <motion.section 
                 style={{ opacity: heroOpacity }}
                 className="relative h-screen w-full flex flex-col justify-center items-center px-6 md:px-12 border-b border-white/[0.02]"
               >
-                {/* 🎯 RESTORED: Stable text elements layout structure */}
                 <motion.div style={{ y: heroTextY }} className="text-center max-w-4xl space-y-6 z-10">
                   <span className="text-[10px] font-mono tracking-[0.4em] text-[#7e7e87] uppercase block">
                     [ FRONTEND ARCHITECT / INTERACTION SPECIALIST ]
@@ -332,7 +330,6 @@ export default function App() {
                 </motion.div>
               </motion.section>
 
-              {/* EXHIBITION CASE SHIFT INTERFACES */}
               <section className="w-full py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-end border-b border-white/[0.04] pb-8 mb-16 gap-6">
                   <div>
@@ -353,19 +350,26 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* SHOWCASE WRAPPER MATRIX */}
                 <div className="grid grid-cols-1 gap-8">
                   {filteredProjects.map((project) => (
                     <div
                       key={project.id}
                       onClick={() => navigateToProject(project)}
-                      className="w-full bg-[#0a0a0c]/80 backdrop-blur-md rounded-3xl p-6 md:p-10 flex flex-col justify-between group cursor-pointer pointer-events-auto relative border border-white/[0.04] hover-elastic-card overflow-hidden"
+                      className="w-full bg-[#0a0a0c]/80 backdrop-blur-md rounded-3xl p-6 md:p-10 flex flex-col justify-between group cursor-pointer pointer-events-auto relative border border-white/[0.04] project-vector-card overflow-hidden"
                     >
-                      {/* Elastic Border Lines */}
-                      <div className="elastic-border-line top" />
-                      <div className="elastic-border-line right" />
-                      <div className="elastic-border-line bottom" />
-                      <div className="elastic-border-line left" />
+                      {/* 🚀 ENHANCEMENT: NATIVE HIGH-FIDELITY VECTOR PATH TRAVELER */}
+                      {/* The vector rectangle matches the exactly scaling limits and geometry constraints of your cards */}
+                      <svg className="absolute inset-0 w-full h-full pointer-events-none z-30" xmlns="http://www.w3.org/2000/svg">
+                        <rect 
+                          x="0.5" 
+                          y="0.5" 
+                          width="100%" 
+                          height="100%" 
+                          rx="24" 
+                          fill="none" 
+                          className="vector-laser-stroke" 
+                        />
+                      </svg>
 
                       <div className="absolute -top-12 -right-12 text-[10vw] font-black text-white/[0.01] select-none uppercase pointer-events-none font-mono">
                         {project.num}
