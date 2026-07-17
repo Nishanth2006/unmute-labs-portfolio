@@ -90,7 +90,7 @@ export default function App() {
   });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  // --- 🧬 HARDWARE-ACCELERATED CANVAS GRID ENGINES ---
+  // --- 🚀 HARDWARE-ACCELERATED CANVAS BACKGROUND ---
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const mouseRef = useRef({ x: -1000, y: -1000, targetX: -1000, targetY: -1000 });
 
@@ -102,7 +102,6 @@ export default function App() {
 
     let animationFrameId: number;
     
-    // Scale canvas to match exactly the viewport limits
     const handleResize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -116,9 +115,7 @@ export default function App() {
     };
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
-    // Render loop running outside of React updates for flawless performance
     const renderLoop = () => {
-      // Smooth cursor interpolation easing
       mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * 0.12;
       mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * 0.12;
 
@@ -128,7 +125,6 @@ export default function App() {
       const padding = 24;
       const glowRadius = 180;
 
-      // Draw Grid Matrix
       for (let x = padding; x < canvas.width - padding; x += cellSize) {
         for (let y = padding; y < canvas.height - padding; y += cellSize) {
           const rectX = x;
@@ -136,30 +132,26 @@ export default function App() {
           const rectW = cellSize - 6;
           const rectH = cellSize - 6;
 
-          // Compute mathematical proximity parameters to check proximity to mouse coordinates
           const centerX = rectX + rectW / 2;
           const centerY = rectY + rectH / 2;
           const distDX = mouseRef.current.x - centerX;
           const distDY = mouseRef.current.y - centerY;
           const distance = Math.sqrt(distDX * distDX + distDY * distDY);
 
-          let opacity = 0.02; // Baseline inactive alpha structure
+          let opacity = 0.02; 
           let borderOpacity = 0.05;
 
           if (distance < glowRadius) {
-            // Smooth exponential power falloff curve matching premium interpolation presets
             const proximityFactor = 1 - distance / glowRadius;
             opacity += Math.pow(proximityFactor, 2) * 0.18;
             borderOpacity += Math.pow(proximityFactor, 2) * 0.45;
           }
 
-          // Render Tile Fill Background Node
           ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
           ctx.beginPath();
           ctx.roundRect?.(rectX, rectY, rectW, rectH, 4);
           ctx.fill();
 
-          // Render Line Boundaries Glow Framework
           ctx.strokeStyle = `rgba(255, 255, 255, ${borderOpacity})`;
           ctx.lineWidth = 1;
           ctx.stroke();
@@ -178,7 +170,31 @@ export default function App() {
     };
   }, []);
 
-  // --- CURSOR CORE TRACKING ---
+  // --- 🚀 INTERACTIVE LOG COMPILER GLITCH EFFECT ---
+  const triggerGlitchText = (targetString: string) => {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*()_-+=";
+    let iterations = 0;
+    
+    const interval = setInterval(() => {
+      setConsoleMessage(prev => {
+        return targetString
+          .split("")
+          .map((letter, index) => {
+            if (index < iterations) return targetString[index];
+            if (letter === " ") return " ";
+            return chars[Math.floor(Math.random() * chars.length)];
+          })
+          .join("");
+      });
+
+      if (iterations >= targetString.length) {
+        clearInterval(interval);
+      }
+      iterations += 2; // Speed parameter mutation steps
+    }, 24);
+  };
+
+  // --- CURSOR TRACKING ---
   const rawX = useMotionValue(-1000);
   const rawY = useMotionValue(-1000);
   const springCursorX = useSpring(rawX, { damping: 40, stiffness: 300, mass: 0.2 });
@@ -210,25 +226,25 @@ export default function App() {
     setSelectedProject(project);
     setCurrentPage('project');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    setConsoleMessage(`Mapping active view route directly to: [${project.title}]. Assets initialized successfully.`);
+    triggerGlitchText(`ROUTE DISPATCHED: Initialized module pipeline map for [${project.title}]. Ready.`);
   };
 
   const backToShowroom = () => {
     setCurrentPage('showroom');
     setSelectedProject(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    setConsoleMessage("Returned to primary layout deck view. Workspace synced.");
+    triggerGlitchText("WORKSPACE REDIRECTED: Switched framework context deck link back to root showroom display.");
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    setConsoleMessage(`Updating local context: [form_${name}] -> "${value.substring(0, 30)}${value.length > 30 ? '...' : ''}"`);
+    triggerGlitchText(`BUFFER DECRYPT: Local context stream input parameters [form_${name}] modified successfully.`);
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setConsoleMessage("COMPILING PAYLOAD... Establishing safe handshake parameters with transmission node.");
+    triggerGlitchText("TRANSMISSION VECTOR COMPILED. Dispatching handshake packet arrays across endpoint gateways...");
 
     try {
       const response = await fetch(FORMSPREE_ENDPOINT, {
@@ -239,13 +255,13 @@ export default function App() {
 
       if (response.ok) {
         setIsSubmitted(true);
-        setConsoleMessage(`TRANSMISSION SUCCESSFUL: Lead packet pushed to queue. Client "${formData.name}" tracked completely.`);
+        triggerGlitchText(`SUCCESS HANDSHAKE: Payload delivered securely. Ingestion log clear for "${formData.name}".`);
         setFormData({ name: '', email: '', category: 'SaaS Platform', budget: '$2,000 - $5,000', details: '' });
       } else {
-        setConsoleMessage("TRANSMISSION ERROR: Endpoint pipeline handshake failed.");
+        triggerGlitchText("HANDSHAKE EXCEPTION: Remote connection array returned invalid status parameters.");
       }
     } catch (err) {
-      setConsoleMessage("CRITICAL CORRUPTION FAILURE: Unable to locate active online routing network gateway pipelines.");
+      triggerGlitchText("NETWORK FAULT MATRIX: Network routing interface dropped synchronization parameters completely.");
     }
   };
 
@@ -255,35 +271,35 @@ export default function App() {
       className="relative bg-[#030303] text-white selection:bg-white selection:text-black min-h-screen antialiased overflow-hidden"
     >
       
-      {/* 🚀 GLOWING GRID ENGINE: Pure canvas layer mapped completely directly to native viewport coordinates */}
+      {/* GLOWING CANVAS ENGINE LAYER */}
       <canvas 
         ref={canvasRef} 
         className="fixed inset-0 w-screen h-screen z-0 pointer-events-none bg-[#030303]"
       />
 
-      {/* CUSTOM RING CURSOR */}
+      {/* CURSOR OVERLAY */}
       <motion.div 
         className="fixed top-0 left-0 w-8 h-8 border border-white/40 rounded-full pointer-events-none z-50 hidden md:block mix-blend-difference"
         style={{ x: springCursorX, y: springCursorY }}
       />
 
-      {/* NAVBAR */}
-      <nav className="fixed top-0 left-0 w-full z-40 border-b border-white/[0.03] backdrop-blur-md bg-[#030303]/30 px-6 md:px-12 py-6 flex justify-between items-center">
-        <button onClick={backToShowroom} className="flex items-center space-x-2 text-left bg-transparent border-none cursor-pointer">
+      {/* NAVIGATION BAR */}
+      <nav className="fixed top-0 left-0 w-full z-40 border-b border-white/[0.03] backdrop-blur-md bg-[#030303]/30 px-6 md:px-12 py-6 flex justify-between items-center pointer-events-none">
+        <button onClick={backToShowroom} className="flex items-center space-x-2 text-left bg-transparent border-none cursor-pointer pointer-events-auto">
           <span className="font-extrabold text-sm tracking-[0.3em] uppercase">UNMUTE LABS</span>
           <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
         </button>
         <a 
           href="#hire" 
-          className="flex items-center space-x-2 text-[11px] uppercase tracking-widest font-bold px-5 py-2.5 bg-white text-black rounded-xl hover:opacity-90 transition-all font-mono"
+          className="flex items-center space-x-2 text-[11px] uppercase tracking-widest font-bold px-5 py-2.5 bg-white text-black rounded-xl hover:opacity-90 transition-all font-mono pointer-events-auto cursor-pointer"
         >
           <Mail size={12} />
           <span>Request Pipeline</span>
         </a>
       </nav>
 
-      {/* SYSTEM MAIN VIEW LAYOUT OVERLAY */}
-      <main className="relative z-20">
+      {/* SYSTEM WORKSPACE INTERFACE */}
+      <main className="relative z-20 pointer-events-none">
         <AnimatePresence mode="wait">
           
           {currentPage === 'showroom' && (
@@ -294,24 +310,40 @@ export default function App() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.4 }}
             >
+              {/* HERO DECK OVERLAY VIEW */}
               <motion.section 
                 style={{ opacity: heroOpacity }}
                 className="relative h-screen w-full flex flex-col justify-center items-center px-6 md:px-12 border-b border-white/[0.02]"
               >
-                <motion.div style={{ y: heroTextY }} className="text-center max-w-4xl space-y-6 z-10">
+                <motion.div style={{ y: heroTextY }} className="text-center max-w-5xl space-y-6 z-10">
                   <span className="text-[10px] font-mono tracking-[0.4em] text-[#7e7e87] uppercase block">
                     [ FRONTEND ARCHITECT / INTERACTION SPECIALIST ]
                   </span>
-                  <h1 className="text-4xl sm:text-7xl font-black tracking-tighter uppercase leading-[0.95] mb-4">
-                    High-fidelity code. <br/>
-                    <span className="eye-candy-gradient block mt-2">Fluid digital motion.</span>
-                  </h1>
+                  
+                  {/* 🚀 ENHANCEMENT #2: HIGH-FIDELITY LASER TEXT MORPHING VECTOR CONTAINER */}
+                  <div className="w-full flex justify-center py-4 select-none">
+                    <svg viewBox="0 0 950 90" className="w-full max-w-4xl font-black uppercase tracking-tighter laser-text-morph">
+                      <text x="50%" y="70%" textAnchor="middle" className="laser-font-vector">
+                        High-fidelity code.
+                      </text>
+                    </svg>
+                  </div>
+
+                  <div className="w-full flex justify-center pb-4 select-none">
+                    <svg viewBox="0 0 950 90" className="w-full max-w-4xl font-black uppercase tracking-tighter laser-text-morph delay-morph">
+                      <text x="50%" y="70%" textAnchor="middle" className="laser-font-vector-gradient">
+                        Fluid digital motion.
+                      </text>
+                    </svg>
+                  </div>
+
                   <p className="text-[#7e7e87] text-sm sm:text-base max-w-xl mx-auto font-light leading-relaxed">
                     Engineering ultra-smooth web systems, responsive interface engines, and zero-latency state controllers tailored specifically for premium corporate platforms.
                   </p>
                 </motion.div>
               </motion.section>
 
+              {/* EXHIBITION CASE SHIFT INTERFACES */}
               <section className="w-full py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-end border-b border-white/[0.04] pb-8 mb-16 gap-6">
                   <div>
@@ -324,7 +356,7 @@ export default function App() {
                       <button
                         key={category}
                         onClick={() => setActiveFilter(category)}
-                        className={`px-4 py-2 rounded-lg font-medium tracking-wide transition-all uppercase cursor-pointer ${activeFilter === category ? 'bg-white text-black font-bold' : 'text-[#7e7e87] hover:text-white'}`}
+                        className={`px-4 py-2 rounded-lg font-medium tracking-wide transition-all uppercase cursor-pointer pointer-events-auto ${activeFilter === category ? 'bg-white text-black font-bold' : 'text-[#7e7e87] hover:text-white'}`}
                       >
                         {category}
                       </button>
@@ -332,13 +364,21 @@ export default function App() {
                   </div>
                 </div>
 
+                {/* SHOWCASE WRAPPER MATRIX */}
                 <div className="grid grid-cols-1 gap-8">
                   {filteredProjects.map((project) => (
                     <div
                       key={project.id}
                       onClick={() => navigateToProject(project)}
-                      className="w-full bg-[#0a0a0c]/80 backdrop-blur-md border border-white/[0.04] rounded-3xl p-6 md:p-10 flex flex-col justify-between group hover:border-white/20 transition-all cursor-pointer relative"
+                      /* 🚀 ENHANCEMENT #3: ELASTIC LINE-FOLLOWER HOVER TILES WRAPPER */
+                      className="w-full bg-[#0a0a0c]/80 backdrop-blur-md rounded-3xl p-6 md:p-10 flex flex-col justify-between group cursor-pointer pointer-events-auto relative border border-white/[0.04] hover-elastic-card overflow-hidden"
                     >
+                      {/* Elastic Accent Line Injector Nodes */}
+                      <div className="elastic-border-line top" />
+                      <div className="elastic-border-line right" />
+                      <div className="elastic-border-line bottom" />
+                      <div className="elastic-border-line left" />
+
                       <div className="absolute -top-12 -right-12 text-[10vw] font-black text-white/[0.01] select-none uppercase pointer-events-none font-mono">
                         {project.num}
                       </div>
@@ -386,7 +426,7 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="pt-28 px-4 sm:px-6 md:px-12 max-w-6xl mx-auto pb-24"
+              className="pt-28 px-4 sm:px-6 md:px-12 max-w-6xl mx-auto pb-24 pointer-events-auto"
             >
               <button 
                 onClick={backToShowroom}
@@ -449,10 +489,10 @@ export default function App() {
               </div>
             </motion.div>
           )}
-
         </AnimatePresence>
       </main>
 
+      {/* LEAD CONVERSION TRANSMISSION DECK CONTAINER */}
       <section id="hire" className="w-full bg-[#0a0a0c]/90 border-t border-white/[0.03] py-24 px-4 sm:px-6 md:px-12 relative z-20">
         <div className="max-w-4xl mx-auto space-y-12">
           <div className="text-center space-y-3">
@@ -462,8 +502,7 @@ export default function App() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            <form onSubmit={handleFormSubmit} className="lg:col-span-7 bg-black border border-white/[0.04] p-6 md:p-8 rounded-2xl space-y-6">
+            <form onSubmit={handleFormSubmit} className="lg:col-span-7 bg-black border border-white/[0.04] p-6 md:p-8 rounded-2xl space-y-6 pointer-events-auto">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="block text-[11px] font-mono uppercase text-[#7e7e87]">Identity / Brand</label>
@@ -516,7 +555,8 @@ export default function App() {
               </button>
             </form>
 
-            <div className="lg:col-span-5 w-full border border-white/[0.05] rounded-2xl bg-black font-mono overflow-hidden shadow-2xl">
+            {/* MONITOR CORE CONSOLE LOG DECK VIEW */}
+            <div className="lg:col-span-5 w-full border border-white/[0.05] rounded-2xl bg-black font-mono overflow-hidden shadow-2xl pointer-events-auto">
               <div className="bg-neutral-900/60 border-b border-white/[0.05] px-4 py-3 flex items-center justify-between text-xs text-neutral-400">
                 <div className="flex items-center space-x-2">
                   <Terminal size={12} className="text-[#7e7e87]" />
@@ -538,16 +578,17 @@ export default function App() {
                     <p><span className="text-purple-400">project_track:</span> <span className="text-emerald-400">"{formData.category}"</span></p>
                     <p><span className="text-purple-400">budget_allocation:</span> <span className="text-amber-400 font-bold">"{formData.budget}"</span></p>
                   </div>
-                  <p className="text-emerald-500 font-semibold text-[11px] leading-normal animate-pulse">&gt; {consoleMessage}</p>
+                  {/* Glitch Stream Output Area */}
+                  <p className="text-emerald-500 font-semibold text-[11px] leading-normal min-h-[50px] transition-all break-words">&gt; {consoleMessage}</p>
                 </div>
                 <p className="text-[10px] text-neutral-600 pt-4 border-t border-white/[0.03]">Input elements automatically register inside the tracking buffer matrix row.</p>
               </div>
             </div>
-
           </div>
         </div>
       </section>
 
+      {/* OVERLAY LIGHTBOX ZOOM CONTAINER */}
       <AnimatePresence>
         {zoomImage && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-auto">
