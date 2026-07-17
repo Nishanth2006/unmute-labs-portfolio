@@ -171,7 +171,7 @@ export default function App() {
     };
   }, []);
 
-  // --- INTERACTIVE TERMINAL SHELL MONITOR MATRIX ---
+  // --- INTERACTIVE TERMINAL Monitor ---
   const triggerGlitchText = (targetString: string) => {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*()_-+=";
     let iterations = 0;
@@ -194,7 +194,7 @@ export default function App() {
     triggerGlitchText("BOOT PARAMETERS INITIALIZED: Safe workspace core up and running cleanly. System Online.");
   }, []);
 
-  // --- CURSOR CORE TRACKING ---
+  // --- CURSOR Tracking ---
   const rawX = useMotionValue(-1000);
   const rawY = useMotionValue(-1000);
   const springCursorX = useSpring(rawX, { damping: 30, stiffness: 350, mass: 0.15 });
@@ -284,16 +284,16 @@ export default function App() {
       className="relative bg-[#030303] text-white selection:bg-emerald-500 selection:text-black min-h-screen antialiased overflow-hidden"
     >
       
-      {/* Top Viewport Scroll Progress Tracker */}
+      {/* Scroll Bar */}
       <motion.div 
         style={{ scaleX: scaleXProgress }}
         className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-emerald-500 to-teal-400 origin-left z-50 pointer-events-none"
       />
 
-      {/* CANVAS BACKEND LAYER */}
+      {/* BACKGROUND MATRIX */}
       <canvas ref={canvasRef} className="fixed inset-0 w-screen h-screen z-0 pointer-events-none bg-[#030303]" />
 
-      {/* Interactive Custom Ring Pointer */}
+      {/* Ring Pointer */}
       <motion.div 
         className="fixed top-0 left-0 w-8 h-8 rounded-full pointer-events-none z-50 hidden md:block border"
         animate={{
@@ -339,14 +339,14 @@ export default function App() {
         </a>
       </motion.nav>
 
-      {/* WORKSPACE CONTENT CONTAINER */}
+      {/* CORE FRAMEWORK INTERFACE VIEW */}
       <main className="relative z-20 pointer-events-none">
         <AnimatePresence mode="wait">
           
           {currentPage === 'showroom' && (
             <motion.div key="showroom-view" className="pointer-events-auto">
               
-              {/* HERO SECTION DECK */}
+              {/* HERO DECK CONTAINER */}
               <motion.section 
                 style={{ opacity: heroOpacity }}
                 className="relative h-screen w-full flex flex-col justify-center items-center px-6 md:px-12 border-b border-white/[0.02]"
@@ -361,21 +361,17 @@ export default function App() {
                     [ FRONTEND ARCHITECT / INTERACTION SPECIALIST ]
                   </motion.span>
                   
-                  {/* 🎯 THE ULTIMATE FIX: Pure HTML layout. No SVG text overlaps, and a safe background blur to prevent WebKit masking crashes. */}
+                  {/* 🎯 THE BULLETPROOF TYPOGRAPHY DIRECTIVE: 
+                      Standard clean DOM layers with a sharp solid emerald pop to completely eliminate container clipping vulnerabilities. */}
                   <motion.h1 
                     initial={{ opacity: 0, y: 25 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                    className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter uppercase leading-[1.1] mb-4 relative z-10"
+                    className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter uppercase leading-[1.05] mb-4 text-center select-text"
                   >
                     <span className="block text-white">High-fidelity code.</span>
-                    <span className="relative block mt-1 sm:mt-2">
-                      {/* Ambient Emerald Glow Layer (Safe from clipping) */}
-                      <span className="absolute inset-0 bg-emerald-500/20 blur-3xl scale-110 pointer-events-none" />
-                      {/* Gradient Mask Text Layer */}
-                      <span className="relative inline-block bg-gradient-to-r from-white via-emerald-400 to-teal-500 bg-clip-text text-transparent pb-2">
-                        Fluid digital motion.
-                      </span>
+                    <span className="block mt-2 text-emerald-400 drop-shadow-[0_0_30px_rgba(52,211,153,0.2)]">
+                      Fluid digital motion.
                     </span>
                   </motion.h1>
 
@@ -388,7 +384,7 @@ export default function App() {
                     Engineering ultra-smooth web systems, responsive interface engines, and zero-latency state controllers tailored specifically for premium corporate platforms.
                   </motion.p>
 
-                  {/* Brand Audio Waveform Mesh Layout */}
+                  {/* Waveform Mesh Asset Vector */}
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] pointer-events-none z-0 opacity-15">
                     <svg viewBox="0 0 800 200" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                       <path 
@@ -417,7 +413,7 @@ export default function App() {
                 </motion.div>
               </motion.section>
 
-              {/* EXHIBITION PORTFOLIO CASE GRID */}
+              {/* PRODUCT EXHIBITS LIST GRID */}
               <section className="w-full py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto relative">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-end border-b border-white/[0.04] pb-8 mb-16 gap-6">
                   <div>
@@ -432,7 +428,7 @@ export default function App() {
                         onClick={() => setActiveFilter(category)}
                         onMouseEnter={() => setCursorState('hovered')}
                         onMouseLeave={() => setCursorState('default')}
-                        className={`px-4 py-2 rounded-lg font-medium tracking-wide transition-all uppercase cursor-pointer ${activeFilter === category ? 'bg-emerald-500 text-black font-extrabold shadow-[0_0_20px_rgba(52,211,153,0.3)]' : 'text-[#7e7e87] hover:text-white'}`}
+                        className={`px-4 py-2 rounded-lg font-medium tracking-wide transition-all uppercase cursor-pointer pointer-events-auto ${activeFilter === category ? 'bg-emerald-500 text-black font-extrabold shadow-[0_0_20px_rgba(52,211,153,0.3)]' : 'text-[#7e7e87] hover:text-white'}`}
                       >
                         {category}
                       </button>
@@ -440,7 +436,7 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Cross-fade Card Matrix Animation Framework */}
+                {/* Staggered Cross-fade List Layout Container */}
                 <motion.div layout className="grid grid-cols-1 gap-8">
                   <AnimatePresence mode="popLayout">
                     {filteredProjects.map((project, i) => (
@@ -458,12 +454,10 @@ export default function App() {
                         onMouseLeave={() => setCursorState('default')}
                         className="w-full bg-[#0a0a0c]/80 backdrop-blur-md rounded-3xl p-6 md:p-10 flex flex-col justify-between group cursor-pointer relative border border-white/[0.04] project-vector-card overflow-hidden"
                       >
-                        {/* High-Fidelity Border Vector Stroke */}
                         <svg className="absolute inset-0 w-full h-full pointer-events-none z-30" xmlns="http://www.w3.org/2000/svg">
                           <rect x="0.5" y="0.5" width="100%" height="100%" rx="24" fill="none" className="vector-laser-stroke" />
                         </svg>
 
-                        {/* Large Accent Ghost Numerals */}
                         <div className="absolute -top-6 -right-6 text-[11vw] font-black text-white/[0.05] group-hover:text-emerald-400/[0.06] transition-colors select-none uppercase pointer-events-none font-mono leading-none">
                           {project.num}
                         </div>
@@ -564,12 +558,12 @@ export default function App() {
                       onClick={() => setZoomImage(imgUrl)}
                       onMouseEnter={() => setCursorState('hovered')}
                       onMouseLeave={() => setCursorState('default')}
-                      className="bg-[#0a0a0c]/80 border border-white/[0.04] rounded-2xl overflow-hidden p-3 group hover:border-emerald-500/30 transition-all cursor-zoom-in relative"
+                      className="bg-[#0a0a0c] border border-white/[0.04] rounded-2xl overflow-hidden p-3 group hover:border-emerald-500/30 transition-all cursor-zoom-in relative"
                     >
                       <div className="w-full aspect-[16/10] overflow-hidden rounded-xl bg-neutral-900 relative">
                         <img 
                           src={imgUrl} 
-                          alt="Interface Segment Capture" 
+                          alt="Interface Frame Capture Segment" 
                           className="w-full h-full object-cover filter grayscale contrast-[1.05] group-hover:grayscale-0 group-hover:contrast-[1.0] transition-all duration-700 ease-out group-hover:scale-[1.03]" 
                         />
                         <div className="absolute top-3 right-3 p-2 bg-black/60 backdrop-blur-md rounded-lg text-white/60 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -587,7 +581,7 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      {/* LEAD INGESTION FORM MATRIX */}
+      {/* LEAD INGESTION TRANSMISSION STREAM */}
       <section id="hire" className="w-full bg-[#0a0a0c]/90 border-t border-white/[0.03] py-24 px-4 sm:px-6 md:px-12 relative z-20">
         <div className="max-w-4xl mx-auto space-y-12">
           <div className="text-center space-y-3">
@@ -650,7 +644,7 @@ export default function App() {
               </button>
             </form>
 
-            {/* FAKE SYSTEM SHELL MONITOR PANEL */}
+            {/* LIVE DATA INTERFACE CONTAINER */}
             <div className="lg:col-span-5 w-full border border-white/[0.05] rounded-2xl bg-black font-mono overflow-hidden shadow-2xl pointer-events-auto">
               <div className="bg-neutral-900/60 border-b border-white/[0.05] px-4 py-3 flex items-center justify-between text-xs text-neutral-400">
                 <div className="flex items-center space-x-2">
@@ -682,7 +676,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* TACTILE OVERLAY LIGHTBOX */}
+      {/* LIGHTBOX OVERLAY VIEW */}
       <AnimatePresence>
         {zoomImage && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-auto backdrop-blur-xl bg-black/60">
@@ -698,7 +692,7 @@ export default function App() {
               <button onClick={() => setZoomImage(null)} className="absolute top-4 right-4 z-20 p-2 bg-black/70 backdrop-blur-md border border-white/10 rounded-full text-white hover:bg-emerald-400 hover:text-black transition-colors cursor-pointer">
                 <span className="sr-only">Close</span>✕
               </button>
-              <img src={zoomImage} alt="Expanded Component Frame View" className="w-full h-auto max-h-[80vh] object-contain rounded-xl" />
+              <img src={zoomImage} alt="Expanded Component Capture Subview" className="w-full h-auto max-h-[80vh] object-contain rounded-xl" />
             </motion.div>
           </div>
         )}

@@ -57,7 +57,7 @@ body {
   animation: vectorLineTravel 2.5s linear infinite;
 }
 
-/* Micro-scrollbar configuration overlays */
+/* Micro-scrollbar interface overlay configurations */
 ::-webkit-scrollbar {
   width: 4px;
 }
