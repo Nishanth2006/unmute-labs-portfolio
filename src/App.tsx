@@ -346,7 +346,7 @@ export default function App() {
           {currentPage === 'showroom' && (
             <motion.div key="showroom-view" className="pointer-events-auto">
               
-              {/* HERO SECTION CONTAINER */}
+              {/* HERO SECTION DECK */}
               <motion.section 
                 style={{ opacity: heroOpacity }}
                 className="relative h-screen w-full flex flex-col justify-center items-center px-6 md:px-12 border-b border-white/[0.02]"
@@ -361,56 +361,34 @@ export default function App() {
                     [ FRONTEND ARCHITECT / INTERACTION SPECIALIST ]
                   </motion.span>
                   
-                  {/* 🎯 DEFINITIVE TEXT FIX: 
-                      Renders your text string natively via highly predictable vector paths to eliminate text rendering box clipping limits. */}
-                  <div className="w-full flex justify-center items-center py-2 select-none">
-                    <svg viewBox="0 0 900 160" width="100%" className="max-w-4xl font-black uppercase tracking-tighter leading-none overflow-visible">
-                      <defs>
-                        <linearGradient id="text-emerald-glow" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#ffffff" />
-                          <stop offset="40%" stopColor="#ffffff" />
-                          <stop offset="70%" stopColor="#34d399" />
-                          <stop offset="100%" stopColor="#14b8a6" />
-                        </linearGradient>
-                      </defs>
-                      <motion.text 
-                        x="50%" 
-                        y="60" 
-                        textAnchor="middle" 
-                        fill="#ffffff"
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 60 }}
-                        transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                        className="text-4xl sm:text-6xl font-black"
-                      >
-                        High-fidelity code.
-                      </motion.text>
-                      <motion.text 
-                        x="50%" 
-                        y="110" 
-                        textAnchor="middle" 
-                        fill="url(#text-emerald-glow)"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 1, delay: 0.55 }}
-                        className="text-4xl sm:text-6xl font-black"
-                        style={{ filter: "drop-shadow(0px 0px 25px rgba(52,211,153,0.15))" }}
-                      >
+                  {/* 🎯 THE ULTIMATE FIX: Pure HTML layout. No SVG text overlaps, and a safe background blur to prevent WebKit masking crashes. */}
+                  <motion.h1 
+                    initial={{ opacity: 0, y: 25 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter uppercase leading-[1.1] mb-4 relative z-10"
+                  >
+                    <span className="block text-white">High-fidelity code.</span>
+                    <span className="relative block mt-1 sm:mt-2">
+                      {/* Ambient Emerald Glow Layer (Safe from clipping) */}
+                      <span className="absolute inset-0 bg-emerald-500/20 blur-3xl scale-110 pointer-events-none" />
+                      {/* Gradient Mask Text Layer */}
+                      <span className="relative inline-block bg-gradient-to-r from-white via-emerald-400 to-teal-500 bg-clip-text text-transparent pb-2">
                         Fluid digital motion.
-                      </motion.text>
-                    </svg>
-                  </div>
+                      </span>
+                    </span>
+                  </motion.h1>
 
                   <motion.p 
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.65 }}
-                    className="text-[#7e7e87] text-sm sm:text-base max-w-xl mx-auto font-light leading-relaxed relative z-10"
+                    transition={{ duration: 0.6, delay: 0.5 }}
+                    className="text-[#7e7e87] text-sm sm:text-base max-w-xl mx-auto font-light leading-relaxed relative z-20"
                   >
                     Engineering ultra-smooth web systems, responsive interface engines, and zero-latency state controllers tailored specifically for premium corporate platforms.
                   </motion.p>
 
-                  {/* Audio Waveform Mesh Signature Layer */}
+                  {/* Brand Audio Waveform Mesh Layout */}
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] pointer-events-none z-0 opacity-15">
                     <svg viewBox="0 0 800 200" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                       <path 
