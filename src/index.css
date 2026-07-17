@@ -27,14 +27,13 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* 🚀 HIGH-PERFORMANCE EMERALD VECTOR LASER STROKE HOVER RUNNERS */
+/* 🚀 HIGH-PERFORMANCE EMERALD VECTOR LASER STROKE RUNNERS */
 .project-vector-card {
   position: relative;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .vector-laser-stroke {
-  /* 🎯 REFINEMENT #1: Accent path color updated to emerald profile parameters */
   stroke: #34d399;
   stroke-width: 1.5px;
   stroke-dasharray: 140 1200; 
@@ -58,7 +57,7 @@ body {
   animation: vectorLineTravel 2.5s linear infinite;
 }
 
-/* Micro-scrollbar interface overlay styling */
+/* Micro-scrollbar configuration overlays */
 ::-webkit-scrollbar {
   width: 4px;
 }

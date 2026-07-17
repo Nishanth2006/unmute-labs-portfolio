@@ -91,7 +91,7 @@ export default function App() {
   });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  // --- CANVAS BACKGROUND ENGINE ---
+  // --- HARDWARE-ACCELERATED CANVAS BACKGROUND MATRIX ---
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const mouseRef = useRef({ x: -1000, y: -1000, targetX: -1000, targetY: -1000 });
 
@@ -171,12 +171,11 @@ export default function App() {
     };
   }, []);
 
-  // --- INTERACTIVE LOG SCRAMBLER MATRIX ---
+  // --- INTERACTIVE TERMINAL SHELL MONITOR MATRIX ---
   const triggerGlitchText = (targetString: string) => {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*()_-+=";
     let iterations = 0;
     const interval = setInterval(() => {
-      // 🎯 FIXED: Removed unused 'prev' argument array reference
       setConsoleMessage(() => targetString
         .split("")
         .map((letter, index) => {
@@ -195,7 +194,7 @@ export default function App() {
     triggerGlitchText("BOOT PARAMETERS INITIALIZED: Safe workspace core up and running cleanly. System Online.");
   }, []);
 
-  // --- CURSOR TRACKING MATRIX ---
+  // --- CURSOR CORE TRACKING ---
   const rawX = useMotionValue(-1000);
   const rawY = useMotionValue(-1000);
   const springCursorX = useSpring(rawX, { damping: 30, stiffness: 350, mass: 0.15 });
@@ -285,16 +284,16 @@ export default function App() {
       className="relative bg-[#030303] text-white selection:bg-emerald-500 selection:text-black min-h-screen antialiased overflow-hidden"
     >
       
-      {/* Scroll Progress Tracker */}
+      {/* Top Viewport Scroll Progress Tracker */}
       <motion.div 
         style={{ scaleX: scaleXProgress }}
         className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-emerald-500 to-teal-400 origin-left z-50 pointer-events-none"
       />
 
-      {/* CANVAS BACKGROUND ENGINE */}
+      {/* CANVAS BACKEND LAYER */}
       <canvas ref={canvasRef} className="fixed inset-0 w-screen h-screen z-0 pointer-events-none bg-[#030303]" />
 
-      {/* Dynamic Cursor Ring */}
+      {/* Interactive Custom Ring Pointer */}
       <motion.div 
         className="fixed top-0 left-0 w-8 h-8 rounded-full pointer-events-none z-50 hidden md:block border"
         animate={{
@@ -340,19 +339,18 @@ export default function App() {
         </a>
       </motion.nav>
 
-      {/* MAIN LAYOUT SITE CONTAINER */}
+      {/* WORKSPACE CONTENT CONTAINER */}
       <main className="relative z-20 pointer-events-none">
         <AnimatePresence mode="wait">
           
           {currentPage === 'showroom' && (
             <motion.div key="showroom-view" className="pointer-events-auto">
               
-              {/* HERO SECTION DECK */}
+              {/* HERO SECTION CONTAINER */}
               <motion.section 
                 style={{ opacity: heroOpacity }}
                 className="relative h-screen w-full flex flex-col justify-center items-center px-6 md:px-12 border-b border-white/[0.02]"
               >
-                {/* 🎯 FIXED: Hooked up heroTextY inside a motion element layer seamlessly */}
                 <motion.div style={{ y: heroTextY }} className="text-center max-w-4xl space-y-6 z-10 relative">
                   <motion.span 
                     initial={{ opacity: 0, y: 15 }}
@@ -363,29 +361,56 @@ export default function App() {
                     [ FRONTEND ARCHITECT / INTERACTION SPECIALIST ]
                   </motion.span>
                   
-                  {/* 🎯 FIXED: Restored perfect </motion.h1> syntax pairing limits */}
-                  <motion.h1 
-                    initial={{ opacity: 0, y: 25 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                    className="text-4xl sm:text-7xl font-black tracking-tighter uppercase leading-[0.95] mb-4 relative"
-                  >
-                    High-fidelity code. <br/>
-                    <span className="bg-gradient-to-r from-white via-emerald-400 to-teal-500 bg-clip-text text-transparent block mt-2 drop-shadow-[0_0_30px_rgba(52,211,153,0.15)]">
-                      Fluid digital motion.
-                    </span>
-                  </motion.h1>
+                  {/* 🎯 DEFINITIVE TEXT FIX: 
+                      Renders your text string natively via highly predictable vector paths to eliminate text rendering box clipping limits. */}
+                  <div className="w-full flex justify-center items-center py-2 select-none">
+                    <svg viewBox="0 0 900 160" width="100%" className="max-w-4xl font-black uppercase tracking-tighter leading-none overflow-visible">
+                      <defs>
+                        <linearGradient id="text-emerald-glow" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="#ffffff" />
+                          <stop offset="40%" stopColor="#ffffff" />
+                          <stop offset="70%" stopColor="#34d399" />
+                          <stop offset="100%" stopColor="#14b8a6" />
+                        </linearGradient>
+                      </defs>
+                      <motion.text 
+                        x="50%" 
+                        y="60" 
+                        textAnchor="middle" 
+                        fill="#ffffff"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 60 }}
+                        transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                        className="text-4xl sm:text-6xl font-black"
+                      >
+                        High-fidelity code.
+                      </motion.text>
+                      <motion.text 
+                        x="50%" 
+                        y="110" 
+                        textAnchor="middle" 
+                        fill="url(#text-emerald-glow)"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1, delay: 0.55 }}
+                        className="text-4xl sm:text-6xl font-black"
+                        style={{ filter: "drop-shadow(0px 0px 25px rgba(52,211,153,0.15))" }}
+                      >
+                        Fluid digital motion.
+                      </motion.text>
+                    </svg>
+                  </div>
 
                   <motion.p 
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.5 }}
+                    transition={{ duration: 0.6, delay: 0.65 }}
                     className="text-[#7e7e87] text-sm sm:text-base max-w-xl mx-auto font-light leading-relaxed relative z-10"
                   >
                     Engineering ultra-smooth web systems, responsive interface engines, and zero-latency state controllers tailored specifically for premium corporate platforms.
                   </motion.p>
 
-                  {/* Brand Audio Waveform Mesh Layout */}
+                  {/* Audio Waveform Mesh Signature Layer */}
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] pointer-events-none z-0 opacity-15">
                     <svg viewBox="0 0 800 200" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                       <path 
@@ -414,7 +439,7 @@ export default function App() {
                 </motion.div>
               </motion.section>
 
-              {/* PRODUCT SHOWROOM EXHIBITION */}
+              {/* EXHIBITION PORTFOLIO CASE GRID */}
               <section className="w-full py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto relative">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-end border-b border-white/[0.04] pb-8 mb-16 gap-6">
                   <div>
@@ -437,7 +462,7 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Filter Swapping Cross-fade Container Grid */}
+                {/* Cross-fade Card Matrix Animation Framework */}
                 <motion.div layout className="grid grid-cols-1 gap-8">
                   <AnimatePresence mode="popLayout">
                     {filteredProjects.map((project, i) => (
@@ -455,10 +480,12 @@ export default function App() {
                         onMouseLeave={() => setCursorState('default')}
                         className="w-full bg-[#0a0a0c]/80 backdrop-blur-md rounded-3xl p-6 md:p-10 flex flex-col justify-between group cursor-pointer relative border border-white/[0.04] project-vector-card overflow-hidden"
                       >
+                        {/* High-Fidelity Border Vector Stroke */}
                         <svg className="absolute inset-0 w-full h-full pointer-events-none z-30" xmlns="http://www.w3.org/2000/svg">
                           <rect x="0.5" y="0.5" width="100%" height="100%" rx="24" fill="none" className="vector-laser-stroke" />
                         </svg>
 
+                        {/* Large Accent Ghost Numerals */}
                         <div className="absolute -top-6 -right-6 text-[11vw] font-black text-white/[0.05] group-hover:text-emerald-400/[0.06] transition-colors select-none uppercase pointer-events-none font-mono leading-none">
                           {project.num}
                         </div>
@@ -582,7 +609,7 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      {/* CLIENT PIPELINE INGESTION GRID */}
+      {/* LEAD INGESTION FORM MATRIX */}
       <section id="hire" className="w-full bg-[#0a0a0c]/90 border-t border-white/[0.03] py-24 px-4 sm:px-6 md:px-12 relative z-20">
         <div className="max-w-4xl mx-auto space-y-12">
           <div className="text-center space-y-3">
@@ -645,7 +672,7 @@ export default function App() {
               </button>
             </form>
 
-            {/* MONITOR CONSOLE */}
+            {/* FAKE SYSTEM SHELL MONITOR PANEL */}
             <div className="lg:col-span-5 w-full border border-white/[0.05] rounded-2xl bg-black font-mono overflow-hidden shadow-2xl pointer-events-auto">
               <div className="bg-neutral-900/60 border-b border-white/[0.05] px-4 py-3 flex items-center justify-between text-xs text-neutral-400">
                 <div className="flex items-center space-x-2">
@@ -677,7 +704,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* OVERLAY LIGHTBOX */}
+      {/* TACTILE OVERLAY LIGHTBOX */}
       <AnimatePresence>
         {zoomImage && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-auto backdrop-blur-xl bg-black/60">
@@ -693,7 +720,7 @@ export default function App() {
               <button onClick={() => setZoomImage(null)} className="absolute top-4 right-4 z-20 p-2 bg-black/70 backdrop-blur-md border border-white/10 rounded-full text-white hover:bg-emerald-400 hover:text-black transition-colors cursor-pointer">
                 <span className="sr-only">Close</span>✕
               </button>
-              <img src={zoomImage} alt="Expanded Frame View" className="w-full h-auto max-h-[80vh] object-contain rounded-xl" />
+              <img src={zoomImage} alt="Expanded Component Frame View" className="w-full h-auto max-h-[80vh] object-contain rounded-xl" />
             </motion.div>
           </div>
         )}
