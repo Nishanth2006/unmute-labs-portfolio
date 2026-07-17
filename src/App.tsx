@@ -76,10 +76,11 @@ const PORTFOLIO_DB: Project[] = [
 
 export default function App() {
   const [activeFilter, setActiveFilter] = useState<string>("ALL");
-  const [consoleMessage, setConsoleMessage] = useState<string>("System online. Ready to map client lead generation parameters...");
+  const [consoleMessage, setConsoleMessage] = useState<string>("Booting workspace framework... Ready.");
   const [currentPage, setCurrentPage] = useState<'showroom' | 'project'>('showroom');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [zoomImage, setZoomImage] = useState<string | null>(null);
+  const [cursorState, setCursorState] = useState<'default' | 'hovered' | 'click'>('default');
 
   const [formData, setFormData] = useState<FormState>({
     name: '',
@@ -90,7 +91,7 @@ export default function App() {
   });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  // --- 🚀 HARDWARE-ACCELERATED CANVAS BACKGROUND ---
+  // --- CANVAS BACKGROUND ENGINE ---
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const mouseRef = useRef({ x: -1000, y: -1000, targetX: -1000, targetY: -1000 });
 
@@ -144,7 +145,7 @@ export default function App() {
           if (distance < glowRadius) {
             const proximityFactor = 1 - distance / glowRadius;
             opacity += Math.pow(proximityFactor, 2) * 0.18;
-            borderOpacity += Math.pow(proximityFactor, 2) * 0.45;
+            borderOpacity += Math.pow(proximityFactor, 2) * 0.35;
           }
 
           ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
@@ -152,7 +153,7 @@ export default function App() {
           ctx.roundRect?.(rectX, rectY, rectW, rectH, 4);
           ctx.fill();
 
-          ctx.strokeStyle = `rgba(255, 255, 255, ${borderOpacity})`;
+          ctx.strokeStyle = distance < glowRadius ? `rgba(52, 211, 153, ${borderOpacity})` : `rgba(255, 255, 255, ${borderOpacity})`;
           ctx.lineWidth = 1;
           ctx.stroke();
         }
@@ -170,51 +171,64 @@ export default function App() {
     };
   }, []);
 
-  // --- DYNAMIC LOG COMPILER DECRYPT EFFECT ---
+  // --- INTERACTIVE LOG SCRAMBLER MATRIX ---
   const triggerGlitchText = (targetString: string) => {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*()_-+=";
     let iterations = 0;
-    
     const interval = setInterval(() => {
-      setConsoleMessage(prev => {
-        return targetString
-          .split("")
-          .map((letter, index) => {
-            if (index < iterations) return targetString[index];
-            if (letter === " ") return " ";
-            return chars[Math.floor(Math.random() * chars.length)];
-          })
-          .join("");
-      });
-
-      if (iterations >= targetString.length) {
-        clearInterval(interval);
-      }
+      // 🎯 FIXED: Removed unused 'prev' argument array reference
+      setConsoleMessage(() => targetString
+        .split("")
+        .map((letter, index) => {
+          if (index < iterations) return targetString[index];
+          if (letter === " ") return " ";
+          return chars[Math.floor(Math.random() * chars.length)];
+        })
+        .join("")
+      );
+      if (iterations >= targetString.length) clearInterval(interval);
       iterations += 2;
-    }, 24);
+    }, 20);
   };
 
-  // --- CURSOR TRACKING ---
+  useEffect(() => {
+    triggerGlitchText("BOOT PARAMETERS INITIALIZED: Safe workspace core up and running cleanly. System Online.");
+  }, []);
+
+  // --- CURSOR TRACKING MATRIX ---
   const rawX = useMotionValue(-1000);
   const rawY = useMotionValue(-1000);
-  const springCursorX = useSpring(rawX, { damping: 40, stiffness: 300, mass: 0.2 });
-  const springCursorY = useSpring(rawY, { damping: 40, stiffness: 300, mass: 0.2 });
+  const springCursorX = useSpring(rawX, { damping: 30, stiffness: 350, mass: 0.15 });
+  const springCursorY = useSpring(rawY, { damping: 30, stiffness: 350, mass: 0.15 });
+
+  const lightboxMouseX = useMotionValue(0);
+  const lightboxMouseY = useMotionValue(0);
+  const springLightboxX = useSpring(lightboxMouseX, { damping: 40, stiffness: 200 });
+  const springLightboxY = useSpring(lightboxMouseY, { damping: 40, stiffness: 200 });
 
   useEffect(() => {
     const handleGlobalMouseMove = (e: MouseEvent) => {
-      rawX.set(e.clientX - 16);
-      rawY.set(e.clientY - 16);
+      rawX.set(e.clientX);
+      rawY.set(e.clientY);
+
+      if (zoomImage) {
+        const dx = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+        const dy = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+        lightboxMouseX.set(dx * 25);
+        lightboxMouseY.set(dy * 25);
+      }
     };
     window.addEventListener('mousemove', handleGlobalMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleGlobalMouseMove);
-  }, [rawX, rawY]);
+  }, [rawX, rawY, zoomImage]);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"]
   });
-  
+
+  const scaleXProgress = useSpring(scrollYProgress, { stiffness: 400, damping: 50 });
   const heroTextY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
 
@@ -239,12 +253,12 @@ export default function App() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    triggerGlitchText(`BUFFER DECRYPT: Local context stream input parameters [form_${name}] modified successfully.`);
+    triggerGlitchText(`BUFFER DECRYPT: Local context stream input parameters [form_${name}] modified.`);
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    triggerGlitchText("TRANSMISSION VECTOR COMPILED. Dispatching handshake packet arrays across endpoint gateways...");
+    triggerGlitchText("TRANSMISSION VECTOR COMPILED. Dispatching handshake packet arrays...");
 
     try {
       const response = await fetch(FORMSPREE_ENDPOINT, {
@@ -261,76 +275,147 @@ export default function App() {
         triggerGlitchText("HANDSHAKE EXCEPTION: Remote connection array returned invalid status parameters.");
       }
     } catch (err) {
-      triggerGlitchText("NETWORK FAULT MATRIX: Network routing interface dropped synchronization parameters completely.");
+      triggerGlitchText("NETWORK FAULT MATRIX: Network routing interface dropped synchronization parameters.");
     }
   };
 
   return (
     <div 
       ref={containerRef} 
-      className="relative bg-[#030303] text-white selection:bg-white selection:text-black min-h-screen antialiased overflow-hidden"
+      className="relative bg-[#030303] text-white selection:bg-emerald-500 selection:text-black min-h-screen antialiased overflow-hidden"
     >
       
-      {/* CANVAS BACKEND GRAPH */}
-      <canvas 
-        ref={canvasRef} 
-        className="fixed inset-0 w-screen h-screen z-0 pointer-events-none bg-[#030303]"
-      />
-
-      {/* CURSOR OVERLAY */}
+      {/* Scroll Progress Tracker */}
       <motion.div 
-        className="fixed top-0 left-0 w-8 h-8 border border-white/40 rounded-full pointer-events-none z-50 hidden md:block mix-blend-difference"
-        style={{ x: springCursorX, y: springCursorY }}
+        style={{ scaleX: scaleXProgress }}
+        className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-emerald-500 to-teal-400 origin-left z-50 pointer-events-none"
       />
 
-      {/* NAVIGATION BAR */}
-      <nav className="fixed top-0 left-0 w-full z-40 border-b border-white/[0.03] backdrop-blur-md bg-[#030303]/30 px-6 md:px-12 py-6 flex justify-between items-center pointer-events-none">
-        <button onClick={backToShowroom} className="flex items-center space-x-2 text-left bg-transparent border-none cursor-pointer pointer-events-auto">
-          <span className="font-extrabold text-sm tracking-[0.3em] uppercase">UNMUTE LABS</span>
-          <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+      {/* CANVAS BACKGROUND ENGINE */}
+      <canvas ref={canvasRef} className="fixed inset-0 w-screen h-screen z-0 pointer-events-none bg-[#030303]" />
+
+      {/* Dynamic Cursor Ring */}
+      <motion.div 
+        className="fixed top-0 left-0 w-8 h-8 rounded-full pointer-events-none z-50 hidden md:block border"
+        animate={{
+          x: cursorState === 'hovered' ? springCursorX.get() - 24 : springCursorX.get() - 16,
+          y: cursorState === 'hovered' ? springCursorY.get() - 24 : springCursorY.get() - 16,
+          scale: cursorState === 'hovered' ? 1.6 : 1,
+          borderColor: cursorState === 'hovered' ? '#34d399' : 'rgba(255,255,255,0.4)',
+          backgroundColor: cursorState === 'hovered' ? 'rgba(52, 211, 153, 0.08)' : 'rgba(255,255,255,0)'
+        }}
+        style={{ originX: 0.5, originY: 0.5 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 28 }}
+      />
+
+      {/* NAVBAR */}
+      <motion.nav 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed top-0 left-0 w-full z-40 border-b border-white/[0.03] backdrop-blur-md bg-[#030303]/30 px-6 md:px-12 py-6 flex justify-between items-center pointer-events-none"
+      >
+        <button 
+          onClick={backToShowroom} 
+          onMouseEnter={() => setCursorState('hovered')}
+          onMouseLeave={() => setCursorState('default')}
+          className="flex items-center space-x-2 text-left bg-transparent border-none cursor-pointer pointer-events-auto group"
+        >
+          <span className="font-extrabold text-sm tracking-[0.3em] uppercase group-hover:text-emerald-400 transition-colors">UNMUTE LABS</span>
+          <div className="relative flex items-center justify-center">
+            <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+            <span className="absolute left-4 bg-[#0a0a0c] border border-white/10 text-[9px] font-mono px-2 py-0.5 rounded text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap tracking-widest pointer-events-none">
+              SYSTEM ONLINE
+            </span>
+          </div>
         </button>
         <a 
           href="#hire" 
-          className="flex items-center space-x-2 text-[11px] uppercase tracking-widest font-bold px-5 py-2.5 bg-white text-black rounded-xl hover:opacity-90 transition-all font-mono pointer-events-auto cursor-pointer"
+          onMouseEnter={() => setCursorState('hovered')}
+          onMouseLeave={() => setCursorState('default')}
+          className="flex items-center space-x-2 text-[11px] uppercase tracking-widest font-bold px-5 py-2.5 bg-white text-black rounded-xl hover:bg-emerald-400 hover:text-black transition-all font-mono pointer-events-auto cursor-pointer"
         >
           <Mail size={12} />
           <span>Request Pipeline</span>
         </a>
-      </nav>
+      </motion.nav>
 
-      {/* MASTER WORKSPACE VIEWPORT */}
+      {/* MAIN LAYOUT SITE CONTAINER */}
       <main className="relative z-20 pointer-events-none">
         <AnimatePresence mode="wait">
           
           {currentPage === 'showroom' && (
-            <motion.div
-              key="showroom-view"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
-            >
+            <motion.div key="showroom-view" className="pointer-events-auto">
+              
+              {/* HERO SECTION DECK */}
               <motion.section 
                 style={{ opacity: heroOpacity }}
                 className="relative h-screen w-full flex flex-col justify-center items-center px-6 md:px-12 border-b border-white/[0.02]"
               >
-                <motion.div style={{ y: heroTextY }} className="text-center max-w-4xl space-y-6 z-10">
-                  <span className="text-[10px] font-mono tracking-[0.4em] text-[#7e7e87] uppercase block">
+                {/* 🎯 FIXED: Hooked up heroTextY inside a motion element layer seamlessly */}
+                <motion.div style={{ y: heroTextY }} className="text-center max-w-4xl space-y-6 z-10 relative">
+                  <motion.span 
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="text-[10px] font-mono tracking-[0.4em] text-[#7e7e87] uppercase block"
+                  >
                     [ FRONTEND ARCHITECT / INTERACTION SPECIALIST ]
-                  </span>
+                  </motion.span>
                   
-                  <h1 className="text-4xl sm:text-7xl font-black tracking-tighter uppercase leading-[0.95] mb-4">
+                  {/* 🎯 FIXED: Restored perfect </motion.h1> syntax pairing limits */}
+                  <motion.h1 
+                    initial={{ opacity: 0, y: 25 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    className="text-4xl sm:text-7xl font-black tracking-tighter uppercase leading-[0.95] mb-4 relative"
+                  >
                     High-fidelity code. <br/>
-                    <span className="eye-candy-gradient block mt-2">Fluid digital motion.</span>
-                  </h1>
+                    <span className="bg-gradient-to-r from-white via-emerald-400 to-teal-500 bg-clip-text text-transparent block mt-2 drop-shadow-[0_0_30px_rgba(52,211,153,0.15)]">
+                      Fluid digital motion.
+                    </span>
+                  </motion.h1>
 
-                  <p className="text-[#7e7e87] text-sm sm:text-base max-w-xl mx-auto font-light leading-relaxed">
+                  <motion.p 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.5 }}
+                    className="text-[#7e7e87] text-sm sm:text-base max-w-xl mx-auto font-light leading-relaxed relative z-10"
+                  >
                     Engineering ultra-smooth web systems, responsive interface engines, and zero-latency state controllers tailored specifically for premium corporate platforms.
-                  </p>
+                  </motion.p>
+
+                  {/* Brand Audio Waveform Mesh Layout */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] pointer-events-none z-0 opacity-15">
+                    <svg viewBox="0 0 800 200" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                      <path 
+                        d="M0 100 Q 100 20, 200 100 T 400 100 T 600 100 T 800 100" 
+                        fill="none" 
+                        stroke="url(#emerald-wave)" 
+                        strokeWidth="1.5"
+                        className="animate-[pulse_4s_infinite_ease-in-out]"
+                      />
+                      <path 
+                        d="M0 100 Q 150 160, 300 100 T 600 100 T 900 100" 
+                        fill="none" 
+                        stroke="url(#emerald-wave)" 
+                        strokeWidth="1"
+                        className="animate-[pulse_6s_infinite_ease-in-out_1s]"
+                      />
+                      <defs>
+                        <linearGradient id="emerald-wave" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="#030303" />
+                          <stop offset="50%" stopColor="#34d399" />
+                          <stop offset="100%" stopColor="#030303" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </div>
                 </motion.div>
               </motion.section>
 
-              <section className="w-full py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto">
+              {/* PRODUCT SHOWROOM EXHIBITION */}
+              <section className="w-full py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto relative">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-end border-b border-white/[0.04] pb-8 mb-16 gap-6">
                   <div>
                     <span className="text-[10px] font-mono tracking-widest text-[#7e7e87] uppercase block mb-2">[ PRODUCT SHOWROOM ]</span>
@@ -342,7 +427,9 @@ export default function App() {
                       <button
                         key={category}
                         onClick={() => setActiveFilter(category)}
-                        className={`px-4 py-2 rounded-lg font-medium tracking-wide transition-all uppercase cursor-pointer pointer-events-auto ${activeFilter === category ? 'bg-white text-black font-bold' : 'text-[#7e7e87] hover:text-white'}`}
+                        onMouseEnter={() => setCursorState('hovered')}
+                        onMouseLeave={() => setCursorState('default')}
+                        className={`px-4 py-2 rounded-lg font-medium tracking-wide transition-all uppercase cursor-pointer ${activeFilter === category ? 'bg-emerald-500 text-black font-extrabold shadow-[0_0_20px_rgba(52,211,153,0.3)]' : 'text-[#7e7e87] hover:text-white'}`}
                       >
                         {category}
                       </button>
@@ -350,63 +437,65 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 gap-8">
-                  {filteredProjects.map((project) => (
-                    <div
-                      key={project.id}
-                      onClick={() => navigateToProject(project)}
-                      className="w-full bg-[#0a0a0c]/80 backdrop-blur-md rounded-3xl p-6 md:p-10 flex flex-col justify-between group cursor-pointer pointer-events-auto relative border border-white/[0.04] project-vector-card overflow-hidden"
-                    >
-                      {/* 🚀 ENHANCEMENT: NATIVE HIGH-FIDELITY VECTOR PATH TRAVELER */}
-                      {/* The vector rectangle matches the exactly scaling limits and geometry constraints of your cards */}
-                      <svg className="absolute inset-0 w-full h-full pointer-events-none z-30" xmlns="http://www.w3.org/2000/svg">
-                        <rect 
-                          x="0.5" 
-                          y="0.5" 
-                          width="100%" 
-                          height="100%" 
-                          rx="24" 
-                          fill="none" 
-                          className="vector-laser-stroke" 
-                        />
-                      </svg>
+                {/* Filter Swapping Cross-fade Container Grid */}
+                <motion.div layout className="grid grid-cols-1 gap-8">
+                  <AnimatePresence mode="popLayout">
+                    {filteredProjects.map((project, i) => (
+                      <motion.div
+                        layout
+                        key={project.id}
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        exit={{ opacity: 0, scale: 0.96 }}
+                        transition={{ duration: 0.6, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                        whileHover={{ y: -6, scale: 1.005, boxShadow: "0 20px 40px -15px rgba(52, 211, 153, 0.12)" }}
+                        onClick={() => navigateToProject(project)}
+                        onMouseEnter={() => setCursorState('hovered')}
+                        onMouseLeave={() => setCursorState('default')}
+                        className="w-full bg-[#0a0a0c]/80 backdrop-blur-md rounded-3xl p-6 md:p-10 flex flex-col justify-between group cursor-pointer relative border border-white/[0.04] project-vector-card overflow-hidden"
+                      >
+                        <svg className="absolute inset-0 w-full h-full pointer-events-none z-30" xmlns="http://www.w3.org/2000/svg">
+                          <rect x="0.5" y="0.5" width="100%" height="100%" rx="24" fill="none" className="vector-laser-stroke" />
+                        </svg>
 
-                      <div className="absolute -top-12 -right-12 text-[10vw] font-black text-white/[0.01] select-none uppercase pointer-events-none font-mono">
-                        {project.num}
-                      </div>
+                        <div className="absolute -top-6 -right-6 text-[11vw] font-black text-white/[0.05] group-hover:text-emerald-400/[0.06] transition-colors select-none uppercase pointer-events-none font-mono leading-none">
+                          {project.num}
+                        </div>
 
-                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start relative z-10">
-                        <div className="lg:col-span-1 space-y-4">
-                          <div className="flex items-center space-x-3">
-                            <span className="text-xs font-mono font-bold text-[#7e7e87] border border-white/10 px-2.5 py-0.5 rounded-md bg-black/40">
-                              {project.category}
-                            </span>
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start relative z-10">
+                          <div className="lg:col-span-1 space-y-4">
+                            <div className="flex items-center space-x-3">
+                              <span className="text-xs font-mono font-bold text-emerald-400 border border-emerald-500/20 px-2.5 py-0.5 rounded-md bg-emerald-500/5">
+                                {project.category}
+                              </span>
+                            </div>
+                            <h3 className="text-2xl md:text-3xl font-black tracking-tight uppercase group-hover:text-emerald-300 transition-colors">
+                              {project.title}
+                            </h3>
+                            <p className="text-xs text-white/90 font-mono font-medium tracking-wide">⚡ {project.metrics}</p>
                           </div>
-                          <h3 className="text-2xl md:text-3xl font-black tracking-tight uppercase group-hover:text-neutral-300 transition-colors">
-                            {project.title}
-                          </h3>
-                          <p className="text-xs text-white/90 font-mono font-medium tracking-wide">⚡ {project.metrics}</p>
-                        </div>
 
-                        <div className="lg:col-span-1">
-                          <p className="text-[#7e7e87] text-sm font-light leading-relaxed pt-1">{project.desc}</p>
-                          <div className="flex flex-wrap gap-1.5 mt-4">
-                            {project.tech.map((t, idx) => (
-                              <span key={idx} className="text-[10px] font-mono px-2.5 py-1 rounded bg-white/[0.02] border border-white/[0.03] text-neutral-400">{t}</span>
-                            ))}
+                          <div className="lg:col-span-1">
+                            <p className="text-[#7e7e87] text-sm font-light leading-relaxed pt-1">{project.desc}</p>
+                            <div className="flex flex-wrap gap-1.5 mt-4">
+                              {project.tech.map((t, idx) => (
+                                <span key={idx} className="text-[10px] font-mono px-2.5 py-1 rounded bg-white/[0.02] border border-white/[0.03] text-neutral-400">{t}</span>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div className="lg:col-span-1 flex lg:justify-end items-center h-full">
+                            <button className="flex items-center space-x-3 bg-white/5 border border-white/10 group-hover:border-emerald-400/40 group-hover:bg-emerald-500 group-hover:text-black px-6 py-4 rounded-xl text-xs font-mono tracking-wider transition-all pointer-events-none">
+                              <span>Explore Interface Case</span>
+                              <ArrowUpRight size={14} />
+                            </button>
                           </div>
                         </div>
-
-                        <div className="lg:col-span-1 flex lg:justify-end items-center h-full">
-                          <button className="flex items-center space-x-3 bg-white/5 border border-white/10 px-6 py-4 rounded-xl text-xs font-mono tracking-wider hover:bg-white hover:text-black transition-all">
-                            <span>Explore Interface Case</span>
-                            <ArrowUpRight size={14} />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                </motion.div>
               </section>
             </motion.div>
           )}
@@ -422,6 +511,8 @@ export default function App() {
             >
               <button 
                 onClick={backToShowroom}
+                onMouseEnter={() => setCursorState('hovered')}
+                onMouseLeave={() => setCursorState('default')}
                 className="flex items-center space-x-2 text-xs font-mono text-[#7e7e87] hover:text-white transition-colors mb-8 cursor-pointer uppercase tracking-widest bg-transparent border-none"
               >
                 <ArrowLeft size={14} />
@@ -436,7 +527,7 @@ export default function App() {
                 </div>
                 <div className="flex flex-wrap gap-1.5 max-w-xs md:justify-end">
                   {selectedProject.tech.map((t, idx) => (
-                    <span key={idx} className="text-[10px] font-mono px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.04] text-neutral-300">{t}</span>
+                    <span key={idx} className="text-[10px] font-mono px-3 py-1.5 rounded-lg bg-emerald-500/5 border border-emerald-500/20 text-emerald-400">{t}</span>
                   ))}
                 </div>
               </div>
@@ -466,25 +557,32 @@ export default function App() {
                     <div 
                       key={i}
                       onClick={() => setZoomImage(imgUrl)}
-                      className="bg-[#0a0a0c] border border-white/[0.04] rounded-2xl overflow-hidden p-3 group hover:border-white/20 transition-all cursor-zoom-in relative"
+                      onMouseEnter={() => setCursorState('hovered')}
+                      onMouseLeave={() => setCursorState('default')}
+                      className="bg-[#0a0a0c]/80 border border-white/[0.04] rounded-2xl overflow-hidden p-3 group hover:border-emerald-500/30 transition-all cursor-zoom-in relative"
                     >
                       <div className="w-full aspect-[16/10] overflow-hidden rounded-xl bg-neutral-900 relative">
-                        <img src={imgUrl} alt="Interface Frame Capture Segment" className="w-full h-full object-cover filter grayscale contrast-[1.05] transition-transform duration-500 group-hover:scale-105" />
+                        <img 
+                          src={imgUrl} 
+                          alt="Interface Segment Capture" 
+                          className="w-full h-full object-cover filter grayscale contrast-[1.05] group-hover:grayscale-0 group-hover:contrast-[1.0] transition-all duration-700 ease-out group-hover:scale-[1.03]" 
+                        />
                         <div className="absolute top-3 right-3 p-2 bg-black/60 backdrop-blur-md rounded-lg text-white/60 opacity-0 group-hover:opacity-100 transition-opacity">
                           <Maximize2 size={12} />
                         </div>
                       </div>
-                      <p className="text-[11px] font-mono text-neutral-400 mt-3 px-1">Blueprint Interface Subview Track Component Module - [0{i + 1}]</p>
+                      <p className="text-[11px] font-mono text-neutral-400 mt-3 px-1">Blueprint Interface Component Segment - [0{i + 1}]</p>
                     </div>
                   ))}
                 </div>
               </div>
             </motion.div>
           )}
+
         </AnimatePresence>
       </main>
 
-      {/* LEAD CONVERSION TRANSMISSION DECK CONTAINER */}
+      {/* CLIENT PIPELINE INGESTION GRID */}
       <section id="hire" className="w-full bg-[#0a0a0c]/90 border-t border-white/[0.03] py-24 px-4 sm:px-6 md:px-12 relative z-20">
         <div className="max-w-4xl mx-auto space-y-12">
           <div className="text-center space-y-3">
@@ -498,18 +596,18 @@ export default function App() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="block text-[11px] font-mono uppercase text-[#7e7e87]">Identity / Brand</label>
-                  <input required name="name" type="text" placeholder="Alex Rivera" value={formData.name} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white/30 focus:outline-none transition-colors" />
+                  <input required name="name" type="text" placeholder="Alex Rivera" value={formData.name} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-emerald-500/40 focus:outline-none transition-colors" />
                 </div>
                 <div className="space-y-2">
                   <label className="block text-[11px] font-mono uppercase text-[#7e7e87]">Secure Mailbox</label>
-                  <input required name="email" type="email" placeholder="alex@brand.com" value={formData.email} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white/30 focus:outline-none transition-colors" />
+                  <input required name="email" type="email" placeholder="alex@brand.com" value={formData.email} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-emerald-500/40 focus:outline-none transition-colors" />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="block text-[11px] font-mono uppercase text-[#7e7e87]">Project Track</label>
-                  <select name="category" value={formData.category} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white/30 focus:outline-none transition-colors cursor-pointer">
+                  <select name="category" value={formData.category} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-emerald-500/40 focus:outline-none transition-colors cursor-pointer">
                     <option>SaaS Platform</option>
                     <option>E-Commerce Hub</option>
                     <option>Immersive Showroom</option>
@@ -518,7 +616,7 @@ export default function App() {
                 </div>
                 <div className="space-y-2">
                   <label className="block text-[11px] font-mono uppercase text-[#7e7e87]">Target Budget Allocation</label>
-                  <select name="budget" value={formData.budget} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white/30 focus:outline-none transition-colors cursor-pointer">
+                  <select name="budget" value={formData.budget} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-emerald-500/40 focus:outline-none transition-colors cursor-pointer">
                     <option>$1,000 - $2,000</option>
                     <option>$2,000 - $5,000</option>
                     <option>$5,000 - $10,000</option>
@@ -529,13 +627,13 @@ export default function App() {
 
               <div className="space-y-2">
                 <label className="block text-[11px] font-mono uppercase text-[#7e7e87]">Architectural Scope Details</label>
-                <textarea required name="details" rows={4} placeholder="Describe your performance metrics targets..." value={formData.details} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-white/30 focus:outline-none transition-colors resize-none" />
+                <textarea required name="details" rows={4} placeholder="Describe your performance metrics targets..." value={formData.details} onChange={handleInputChange} className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-emerald-500/40 focus:outline-none transition-colors resize-none" />
               </div>
 
-              <button type="submit" disabled={isSubmitted} className="w-full flex items-center justify-center space-x-2 bg-white text-black font-mono font-bold text-xs uppercase tracking-widest py-4 rounded-xl hover:bg-neutral-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
+              <button type="submit" disabled={isSubmitted} onMouseEnter={() => setCursorState('hovered')} onMouseLeave={() => setCursorState('default')} className="w-full flex items-center justify-center space-x-2 bg-emerald-500 text-black font-mono font-bold text-xs uppercase tracking-widest py-4 rounded-xl hover:bg-emerald-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
                 {isSubmitted ? (
                   <>
-                    <CheckCircle2 size={14} className="text-emerald-500 animate-pulse" />
+                    <CheckCircle2 size={14} className="text-black animate-pulse" />
                     <span>Transmission Secured</span>
                   </>
                 ) : (
@@ -582,14 +680,20 @@ export default function App() {
       {/* OVERLAY LIGHTBOX */}
       <AnimatePresence>
         {zoomImage && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-auto">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.95 }} exit={{ opacity: 0 }} onClick={() => setZoomImage(null)} className="absolute inset-0 bg-black cursor-zoom-out" />
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ type: "spring", damping: 30, stiffness: 300 }} className="relative z-10">
-              <button onClick={() => setZoomImage(null)} className="absolute top-4 right-4 z-20 p-2 bg-black/70 backdrop-blur-md border border-white/10 rounded-full text-white hover:bg-white hover:text-black transition-colors cursor-pointer">
-                <span className="sr-only">Close</span>
-                ✕
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-auto backdrop-blur-xl bg-black/60">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setZoomImage(null)} className="absolute inset-0 cursor-zoom-out" />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.93 }} 
+              animate={{ opacity: 1, scale: 1 }} 
+              exit={{ opacity: 0, scale: 0.93 }} 
+              style={{ x: springLightboxX, y: springLightboxY }}
+              transition={{ type: "spring", damping: 25, stiffness: 180 }} 
+              className="relative z-10 max-w-5xl max-h-[85vh] select-none rounded-2xl p-1 bg-[#0a0a0c] border border-emerald-500/20 shadow-[0_25px_60px_-10px_rgba(52,211,153,0.15)]"
+            >
+              <button onClick={() => setZoomImage(null)} className="absolute top-4 right-4 z-20 p-2 bg-black/70 backdrop-blur-md border border-white/10 rounded-full text-white hover:bg-emerald-400 hover:text-black transition-colors cursor-pointer">
+                <span className="sr-only">Close</span>✕
               </button>
-              <img src={zoomImage} alt="Expanded Interface Component View" className="w-full h-auto max-h-[80vh] object-contain rounded-lg filter grayscale" />
+              <img src={zoomImage} alt="Expanded Frame View" className="w-full h-auto max-h-[80vh] object-contain rounded-xl" />
             </motion.div>
           </div>
         )}

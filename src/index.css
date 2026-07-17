@@ -6,7 +6,7 @@
   --color-border-subtle: rgba(255, 255, 255, 0.04);
   --color-text-bright: #ffffff;
   --color-text-dim: #7e7e87;
-  --color-accent-blue: #2563eb;
+  --color-accent-emerald: #34d399;
   --font-sans: 'Plus Jakarta Sans', sans-serif;
 }
 
@@ -27,25 +27,23 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* 🚀 TRUE VECTOR PATH TRAVELED LINE */
+/* 🚀 HIGH-PERFORMANCE EMERALD VECTOR LASER STROKE HOVER RUNNERS */
 .project-vector-card {
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  transition: background-color 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .vector-laser-stroke {
-  stroke: #ffffff;
+  /* 🎯 REFINEMENT #1: Accent path color updated to emerald profile parameters */
+  stroke: #34d399;
   stroke-width: 1.5px;
-  /* Creates a clean, distinct line segment that travels the path length */
-  stroke-dasharray: 160 1200; 
+  stroke-dasharray: 140 1200; 
   stroke-dashoffset: 0;
   opacity: 0;
   will-change: stroke-dashoffset, opacity;
   transition: opacity 0.3s ease;
 }
 
-/* On hover, engage a continuous looping race around the exact card borders */
 @keyframes vectorLineTravel {
   0% {
     stroke-dashoffset: 1360;
@@ -57,14 +55,13 @@ body {
 
 .project-vector-card:hover .vector-laser-stroke {
   opacity: 1;
-  animation: vectorLineTravel 3s linear infinite;
+  animation: vectorLineTravel 2.5s linear infinite;
 }
 
 /* Micro-scrollbar interface overlay styling */
 ::-webkit-scrollbar {
   width: 4px;
 }
-grid-wrapper
 ::-webkit-scrollbar-track {
   background: #030303;
 }
