@@ -19,6 +19,46 @@ body {
   padding: 0;
 }
 
+.neural-canvas {
+  opacity: 0.86;
+  mix-blend-mode: screen;
+  filter: saturate(1.08) contrast(1.02);
+  will-change: transform, opacity;
+}
+
+.boot-shell {
+  position: relative;
+}
+
+.boot-shell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(52, 211, 153, 0.08), transparent 24%),
+    radial-gradient(circle at top, rgba(52, 211, 153, 0.12), transparent 54%);
+  opacity: 0.65;
+}
+
+.boot-grid {
+  position: relative;
+  z-index: 1;
+}
+
+.boot-line {
+  text-shadow: 0 0 18px rgba(52, 211, 153, 0.1);
+}
+
+.boot-progress-track {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.boot-progress-fill {
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.18), #34d399 48%, rgba(45, 212, 191, 0.95));
+  box-shadow: 0 0 18px rgba(52, 211, 153, 0.26);
+}
+
 .eye-candy-gradient {
   color: #ffffff;
   background-image: linear-gradient(to right, #a1a1aa 0%, #ffffff 50%, #71717a 100%);
